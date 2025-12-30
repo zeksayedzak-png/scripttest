@@ -1,58 +1,74 @@
--- Base64 Encoded Script
-local encoded = "IyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KIyBTVEVBTFRIIFRPS0VOIFBVUkNIQVNFLiB7QXV0aG9yPSJZb3VyTmFtZSJ9CiMgTW9iaWxlOiBsb2Fkc3RyaW5nKGdhbWU6R2V0SHR0cCgiIikpKCkKIyA9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KCmxvY2FsIGY9ZnVuY3Rpb24oKQogICAgcmV0dXJuIGdhbWU6R2V0U2VydmljZSgiUGxheWVycyIpCmVuZAoKbG9jYWwgcD1mKCkubG9jYWxwbGF5ZXIKd2hpbGUgbm90IHAgZG8gdGFzay53YWl0KCkgZW5kCgp0YXNrLndhaXQoMC41KQoKbG9jYWwgdz1wLldhaXRGb3JDaGlsZCgiUGxheWVyR3VpIikKbG9jYWwgdD1mdW5jdGlvbigpCiAgICByZXR1cm4gdy5GaW5kRmlyc3RDaGlsZCgiQnV5VG9rZW5zIix0cnVlKQplbmQKCi0tIE1haW4gZnVuY3Rpb24KbG9jYWwgYz1mdW5jdGlvbigpCiAgICBsb2NhbCByPXQoKQogICAgaWYgciB0aGVuCiAgICAgICAgbG9jYWwgZT1yLkZpbmRGaXJzdENoaWxkKCJGcmFtZSIsdHJ1ZSkKICAgICAgICBpZiBlIHRoZW4KICAgICAgICAgICAgbG9jYWwgYj1lLkZpbmRGaXJzdENoaWxkKCJQcm9kdWN0cyIsdHJ1ZSkKICAgICAgICAgICAgaWYgYiB0aGVuCiAgICAgICAgICAgICAgICBsb2NhbCBzPWIuRmluZEZpcnN0Q2hpbGQoIkFtdDMiLHRydWUpCiAgICAgICAgICAgICAgICBpZiBzIHRoZW4KICAgICAgICAgICAgICAgICAgICBsb2NhbCB1PXMuRmluZEZpcnN0Q2hpbGQoIkJ1eSIsdHJ1ZSkKICAgICAgICAgICAgICAgICAgICBpZiB1IGFuZCB1LklzQSgiVGV4dEJ1dHRvbiIpIHRoZW4KICAgICAgICAgICAgICAgICAgICAgICAgcmV0dXJuIHUKICAgICAgICAgICAgICAgICAgICBlbmQKICAgICAgICAgICAgICAgIGVuZAogICAgICAgICAgICBlbmQKICAgICAgICBlbmQKICAgIGVuZAogICAgcmV0dXJuIG5pbAplbmQKCi0tIEV4ZWN1dGlvbgpsb2NhbCBvPWMoKQppZiBvIHRoZW4KICAgIG8uVGV4dD0iRlJFRSEhIgogICAgby5CYWNrZ3JvdW5kQ29sb3I9Q29sb3IzLmZyb21SR0IoMCwyNTUsMCkKICAgIGZvciBpPTEsMyBkbwogICAgICAgIG8uQWN0aXZhdGVkOkZpcmUoKQogICAgICAgIHRhc2sud2FpdCgwLjIpCiAgICBlbmQKZW5kCgppZiB3IGFuZCB3LkZpbmRGaXJzdENoaWxkKCJCdXlUb2tlbnMiLHRydWUpIHRoZW4KICAgIHByaW50KCJDbGllbnQgZGV0ZWN0ZWQuIikKZW5kCg=="
+-- تشفير XOR بسيط
+local key = 42  -- مفتاح التشفير
 
--- فك التشفير وتنفيذ
-local function decodeBase64(data)
-    local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-    data = string.gsub(data, '[^'..b..'=]', '')
-    return (data:gsub('.', function(x)
-        if (x == '=') then return '' end
-        local r,f='',(b:find(x)-1)
-        for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
-        return r;
-    end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
-        if (#x ~= 8) then return '' end
-        local c=0
-        for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
-        return string.char(c)
-    end))
-end
+local encodedCode = {
+    82,101,112,101,97,116,32,117,110,116,105,108,32,103,97,109,
+    101,58,71,101,116,83,101,114,118,105,99,101,40,34,80,108,
+    97,121,101,114,115,34,41,46,76,111,99,97,108,80,108,97,
+    121,101,114,10,108,111,99,97,108,32,112,108,97,121,101,114,
+    32,61,32,103,97,109,101,58,71,101,116,83,101,114,118,105,
+    99,101,40,34,80,108,97,121,101,114,115,34,41,46,76,111,
+    99,97,108,80,108,97,121,101,114,10,119,104,105,108,101,32,
+    110,111,116,32,112,108,97,121,101,114,32,100,111,10,9,116,
+    97,115,107,46,119,97,105,116,40,41,10,101,110,100,10,10,
+    45,45,32,67,114,101,97,116,101,32,71,85,73,10,108,111,
+    99,97,108,32,103,117,105,32,61,32,73,110,115,116,97,110,
+    99,101,46,110,101,119,40,34,83,99,114,101,101,110,71,117,
+    105,34,41,10,103,117,105,46,78,97,109,101,32,61,32,34,
+    83,101,99,85,73,34,10,103,117,105,46,80,97,114,101,110,
+    116,32,61,32,112,108,97,121,101,114,58,87,97,105,116,70,
+    111,114,67,104,105,108,100,40,34,80,108,97,121,101,114,71,
+    117,105,34,41,10,10,108,111,99,97,108,32,102,114,97,109,
+    101,32,61,32,73,110,115,116,97,110,99,101,46,110,101,119,
+    40,34,70,114,97,109,101,34,41,10,102,114,97,109,101,46,83,
+    105,122,101,32,61,32,85,68,105,109,50,46,110,101,119,40,
+    48,44,50,48,48,44,48,44,49,48,48,41,10,102,114,97,109,
+    101,46,80,111,115,105,116,105,111,110,32,61,32,85,68,105,
+    109,50,46,110,101,119,40,48,46,53,44,45,49,48,48,44,
+    48,44,49,48,41,10,102,114,97,109,101,46,66,97,99,107,
+    103,114,111,117,110,100,67,111,108,111,114,51,32,61,32,67,
+    111,108,111,114,51,46,102,114,111,109,82,71,66,40,51,48,
+    44,51,48,44,52,48,41,10,102,114,97,109,101,46,80,97,
+    114,101,110,116,32,61,32,103,117,105,10,10,108,111,99,97,
+    108,32,98,116,110,32,61,32,73,110,115,116,97,110,99,101,
+    46,110,101,119,40,34,84,101,120,116,66,117,116,116,111,110,
+    34,41,10,98,116,110,46,84,101,120,116,32,61,32,34,240,
+    159,146,140,32,84,101,115,116,32,83,101,99,117,114,105,116,
+    121,34,10,98,116,110,46,83,105,122,101,32,61,32,85,68,
+    105,109,50,46,110,101,119,40,48,46,57,44,48,44,48,44,
+    52,48,41,10,98,116,110,46,80,111,115,105,116,105,111,110,
+    32,61,32,85,68,105,109,50,46,110,101,119,40,48,46,48,
+    53,44,48,44,48,46,49,44,48,41,10,98,116,110,46,66,
+    97,99,107,103,114,111,117,110,100,67,111,108,111,114,51,32,
+    61,32,67,111,108,111,114,51,46,102,114,111,109,82,71,66,
+    40,53,50,44,49,53,50,44,50,49,57,41,10,98,116,110,
+    46,80,97,114,101,110,116,32,61,32,102,114,97,109,101,10,
+    10,98,116,110,46,77,111,117,115,101,66,117,116,116,111,110,
+    49,67,108,105,99,107,58,67,111,110,110,101,99,116,40,102,
+    117,110,99,116,105,111,110,40,41,10,9,112,114,105,110,116,
+    40,34,240,159,148,142,32,83,101,99,117,114,105,116,121,32,
+    116,101,115,116,32,114,117,110,110,105,110,103,46,46,46,34,
+    41,10,101,110,100,41,10,10,112,114,105,110,116,40,34,240,
+    159,148,144,32,83,101,99,117,114,105,116,121,32,115,99,114,
+    105,112,116,32,108,111,97,100,101,100,34,41
+}
 
--- تنفيذ عند الطلب فقط
-local executed = false
-local function executeOnCommand()
-    if not executed then
-        local success, err = pcall(function()
-            loadstring(decodeBase64(encoded))()
-        end)
-        if success then
-            print("✅ Script executed")
-        else
-            print("❌ Error:", err)
-        end
-        executed = true
+-- دالة فك التشفير
+local function decodeXOR(data, xorKey)
+    local decoded = ""
+    for i = 1, #data do
+        local charCode = bit32.bxor(data[i], xorKey)
+        decoded = decoded .. string.char(charCode)
     end
+    return decoded
 end
 
--- واجهة للتحكم
-local gui = Instance.new("ScreenGui")
-gui.Name = "DevControl"
-gui.Parent = p:WaitForChild("PlayerGui")
+-- فك وتنفيذ
+local decodedScript = decodeXOR(encodedCode, key)
+local success, err = pcall(function()
+    loadstring(decodedScript)()
+end)
 
-local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 100)
-frame.Position = UDim2.new(0.5, -100, 0, 10)
-frame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-frame.Parent = gui
-
-local btn = Instance.new("TextButton")
-btn.Text = "🔒 Run Security Test"
-btn.Size = UDim2.new(0.9, 0, 0, 40)
-btn.Position = UDim2.new(0.05, 0, 0.1, 0)
-btn.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
-btn.Parent = frame
-
-btn.MouseButton1Click:Connect(executeOnCommand)
-
-print("🔐 Security testing script loaded")
-print("ℹ️ Press button to run test")
+if not success then
+    warn("Decode error:", err)
+end
