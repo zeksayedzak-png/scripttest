@@ -1,171 +1,181 @@
--- Token Purchase Exploit
--- Works with: loadstring(game:HttpGet("رابط_السكريبت"))()
+-- 🎯 Targeted Gamepass Exploit
+-- Specific to: PlayerGui.BuyTokens.Frame.Products.Amt3.Buy
 
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local player = game.Players.LocalPlayer
+
+print("🎯 TARGET LOCKED: BuyTokens -> Amt3")
+
+-- الوصول المباشر للزر
+local function AccessTargetButton()
+    local success, button = pcall(function()
+        -- الطريق المباشر
+        local path = {
+            player.PlayerGui,
+            player.PlayerGui.BuyTokens,
+            player.PlayerGui.BuyTokens.Frame,
+            player.PlayerGui.BuyTokens.Frame.Products,
+            player.PlayerGui.BuyTokens.Frame.Products.Amt3,
+            player.PlayerGui.BuyTokens.Frame.Products.Amt3.Buy
+        }
+        
+        -- التأكد من كل خطوة
+        for i, step in ipairs(path) do
+            if i > 1 then
+                wait()
+                if not path[i-1]:FindFirstChild(step.Name) then
+                    return nil, "Path broken at: " .. step.Name
+                end
+            end
+        end
+        
+        return path[6], "✅ Path intact"
+    end)
+    
+    return success and button, success and "Button found" or "Button not found"
+end
+
+-- استراتيجيات الاستغلال
+local function ExecuteExploit(targetButton)
+    print("⚡ Executing targeted exploit...")
+    
+    local results = {}
+    
+    -- 1. تغيير السعر إذا كان ظاهر
+    if targetButton.Parent then
+        for _, child in pairs(targetButton.Parent:GetChildren()) do
+            if child:IsA("TextLabel") and (child.Name == "Price" or child.Name == "Cost") then
+                child.Text = "FREE"
+                child.TextColor3 = Color3.new(0, 1, 0)
+                table.insert(results, "💰 Price changed to FREE")
+            elseif (child:IsA("IntValue") or child:IsA("NumberValue")) and 
+                   (child.Name == "Price" or child.Name == "Cost") then
+                child.Value = 0
+                table.insert(results, "💰 Price value set to 0")
+            end
+        end
+    end
+    
+    -- 2. محاكاة الضغط
+    if targetButton:IsA("TextButton") or targetButton:IsA("ImageButton") then
+        -- تغيير المظهر
+        targetButton.Text = "PURCHASED ✓"
+        targetButton.BackgroundColor3 = Color3.new(0, 1, 0)
+        targetButton.TextColor3 = Color3.new(1, 1, 1)
+        
+        -- إرسال أحداث
+        pcall(function() targetButton:Fire("MouseButton1Click") end)
+        pcall(function() targetButton:Fire("Activated") end)
+        
+        table.insert(results, "🖱️ Button click simulated")
+    end
+    
+    -- 3. البحث عن RemoteEvents المرتبطة
+    local function FindRelatedRemotes()
+        local relatedRemotes = {}
+        local buttonName = targetButton.Name
+        
+        -- البحث في كل مكان
+        for _, obj in pairs(game:GetDescendants()) do
+            if obj:IsA("RemoteEvent") then
+                local name = obj.Name:lower()
+                if name:find("buy") or name:find("purchase") or 
+                   name:find("token") or name:find(buttonName:lower()) then
+                    table.insert(relatedRemotes, obj)
+                end
+            end
+        end
+        
+        return relatedRemotes
+    end
+    
+    -- 4. إرسال طلبات شراء
+    local remotes = FindRelatedRemotes()
+    for _, remote in ipairs(remotes) do
+        pcall(function()
+            -- محاولات مختلفة
+            local attempts = {
+                "Amt3",
+                3,  -- عدد التوكنز
+                {product = "Amt3", purchased = true},
+                {id = "Amt3", amount = 3}
+            }
+            
+            for _, data in ipairs(attempts) do
+                remote:FireServer(data)
+                table.insert(results, "📡 Request to: " .. remote.Name)
+                wait(0.05)
+            end
+        end)
+    end
+    
+    return results
+end
 
 -- الواجهة
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.CoreGui
+screenGui.Parent = player.PlayerGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 200, 0, 100)
-frame.Position = UDim2.new(0.5, -100, 0, 10)
+frame.Size = UDim2.new(0, 250, 0, 150)
+frame.Position = UDim2.new(0.5, -125, 0, 10)
 frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-frame.Parent = screenGui
 
-local button = Instance.new("TextButton")
-button.Size = UDim2.new(0, 180, 0, 40)
-button.Position = UDim2.new(0, 10, 0, 10)
-button.Text = "🛒 Buy Tokens FREE"
-button.BackgroundColor3 = Color3.fromRGB(0, 170, 0)
-button.TextColor3 = Color3.new(1, 1, 1)
-button.Parent = frame
+local title = Instance.new("TextLabel")
+title.Text = "🎯 Targeted Exploit"
+title.Size = UDim2.new(1, 0, 0.2, 0)
+title.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+title.TextColor3 = Color3.new(1, 1, 1)
 
 local status = Instance.new("TextLabel")
-status.Size = UDim2.new(0, 180, 0, 40)
-status.Position = UDim2.new(0, 10, 0, 60)
-status.Text = "Ready to exploit..."
+status.Text = "Target: Amt3 Token Purchase"
+status.Size = UDim2.new(1, 0, 0.3, 0)
+status.Position = UDim2.new(0, 0, 0.2, 0)
 status.TextColor3 = Color3.new(1, 1, 1)
 status.BackgroundTransparency = 1
+
+local exploitBtn = Instance.new("TextButton")
+exploitBtn.Text = "⚡ EXPLOIT NOW"
+exploitBtn.Size = UDim2.new(0.8, 0, 0.25, 0)
+exploitBtn.Position = UDim2.new(0.1, 0, 0.5, 0)
+exploitBtn.BackgroundColor3 = Color3.new(1, 0.5, 0)
+exploitBtn.TextColor3 = Color3.new(1, 1, 1)
+
+local resultText = Instance.new("TextLabel")
+resultText.Text = ""
+resultText.Size = UDim2.new(1, 0, 0.3, 0)
+resultText.Position = UDim2.new(0, 0, 0.75, 0)
+resultText.TextColor3 = Color3.new(0, 1, 0)
+resultText.BackgroundTransparency = 1
+resultText.TextWrapped = true
+
+-- تجميع الواجهة
+title.Parent = frame
 status.Parent = frame
+exploitBtn.Parent = frame
+resultText.Parent = frame
+frame.Parent = screenGui
 
--- دالة البحث عن زر الشراء
-local function FindBuyButton()
-    status.Text = "🔍 Searching for button..."
+-- حدث الزر
+exploitBtn.MouseButton1Click:Connect(function()
+    exploitBtn.Text = "🎯 TARGETING..."
+    resultText.Text = ""
     
-    -- الطريقة 1: البحث بالمسار المباشر
-    local success, target = pcall(function()
-        return player:WaitForChild("PlayerGui"):WaitForChild("BuyTokens"):WaitForChild("Frame")
-                    :WaitForChild("Products"):WaitForChild("Amt3"):WaitForChild("Buy")
-    end)
+    local button, msg = AccessTargetButton()
+    status.Text = msg
     
-    if success and target then
-        status.Text = "✅ Button found!"
-        return target
-    end
-    
-    -- الطريقة 2: البحث في كل الأماكن
-    status.Text = "🔍 Searching all PlayerGui..."
-    local playerGui = player:WaitForChild("PlayerGui")
-    
-    local function searchIn(parent)
-        for _, child in pairs(parent:GetChildren()) do
-            if child.Name == "Buy" and child:IsA("TextButton") then
-                -- تأكد أنه زر الشراء الصحيح
-                if child.Parent and child.Parent.Name == "Amt3" then
-                    if child.Parent.Parent and child.Parent.Parent.Name == "Products" then
-                        status.Text = "✅ Button found via search!"
-                        return child
-                    end
-                end
-            end
-            local result = searchIn(child)
-            if result then return result end
-        end
-        return nil
-    end
-    
-    return searchIn(playerGui)
-end
-
--- دالة الاستغلال
-local function ExploitPurchase(targetButton)
-    status.Text = "🚀 Exploiting..."
-    
-    -- الطريقة 1: تغيير السعر
-    local priceChanged = false
-    for _, child in pairs(targetButton.Parent:GetDescendants()) do
-        if child:IsA("TextLabel") and (child.Name == "Price" or child.Name == "Cost") then
-            child.Text = "FREE"
-            child.TextColor3 = Color3.new(0, 1, 0)
-            priceChanged = true
-        elseif child:IsA("NumberValue") and (child.Name == "Price" or child.Name == "Cost") then
-            child.Value = 0
-            priceChanged = true
-        end
-    end
-    
-    if priceChanged then
-        status.Text = "💰 Price set to FREE!"
-    end
-    
-    -- الطريقة 2: إرسال طلب شراء مباشر
-    status.Text = "📡 Sending purchase request..."
-    
-    -- البحث عن RemoteEvents
-    local remotes = ReplicatedStorage:GetDescendants()
-    for _, remote in pairs(remotes) do
-        if remote:IsA("RemoteEvent") then
-            local remoteName = remote.Name:lower()
-            if remoteName:find("buy") or remoteName:find("purchase") or remoteName:find("token") then
-                pcall(function()
-                    remote:FireServer("Amt3", 0)
-                    status.Text = "✅ Purchase request sent!"
-                    return true
-                end)
-            end
-        elseif remote:IsA("RemoteFunction") then
-            local remoteName = remote.Name:lower()
-            if remoteName:find("buy") or remoteName:find("purchase") or remoteName:find("token") then
-                pcall(function()
-                    remote:InvokeServer("Amt3", 0)
-                    status.Text = "✅ Purchase request sent!"
-                    return true
-                end)
-            end
-        end
-    end
-    
-    -- الطريقة 3: محاكاة الضغط على الزر
-    status.Text = "🖱️ Simulating button click..."
-    pcall(function()
-        if targetButton:IsA("TextButton") then
-            targetButton.Text = "Purchased ✓"
-            targetButton.BackgroundColor3 = Color3.new(0, 1, 0)
-            targetButton.TextColor3 = Color3.new(1, 1, 1)
-            
-            -- محاكاة الأحداث
-            targetButton:Fire("MouseButton1Click")
-            targetButton:Fire("Activated")
-            status.Text = "✅ Button clicked!"
-        end
-    end)
-    
-    status.Text = "🎯 Exploit completed!"
-    return true
-end
-
--- تشغيل الاستغلال
-button.MouseButton1Click:Connect(function()
-    status.Text = "⏳ Starting exploit..."
-    
-    task.wait(1)
-    
-    local buyButton = FindBuyButton()
-    
-    if buyButton then
-        ExploitPurchase(buyButton)
+    if button then
+        exploitBtn.Text = "⚡ EXPLOITING..."
+        local results = ExecuteExploit(button)
+        
+        resultText.Text = table.concat(results, "\n")
+        status.Text = "✅ Exploit completed!"
+        exploitBtn.Text = "🎯 RETARGET"
     else
-        status.Text = "❌ Button not found!"
-        
-        -- محاولة إيجاد المسار يدوياً
-        status.Text = "🔧 Trying manual path..."
-        task.wait(2)
-        
-        -- إنشاء زر وهمي إذا لم يوجد
-        status.Text = "⚠️ Creating fake purchase..."
-        
-        -- محاولة إرسال طلب شراء عام
-        pcall(function()
-            game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PurchaseTokens"):FireServer("Amt3")
-            status.Text = "🎯 Fake purchase attempted!"
-        end)
+        resultText.Text = "❌ Failed to access button"
+        exploitBtn.Text = "⚡ EXPLOIT NOW"
     end
 end)
 
-print("✅ Token Exploit Loaded!")
-print("🎯 Target: PlayerGui.BuyTokens.Frame.Products.Amt3.Buy")
-print("📱 Mobile Compatible: YES")
-print("🛡️ Anti-Detect: ENABLED")
+print("🎯 Targeted exploit ready!")
+print("🔧 Path: PlayerGui.BuyTokens.Frame.Products.Amt3.Buy")
+print("💡 Press the button to exploit")
