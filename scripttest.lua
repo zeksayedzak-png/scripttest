@@ -1,63 +1,70 @@
--- 📱 Mobile Gamepass Purchase
--- loadstring(game:HttpGet("رابط"))()
-
+-- 🚀 Advanced Mobile Purchase
 local player = game.Players.LocalPlayer
 
--- 📝 مربع إدخال
+local function buyGamepass(id)
+    -- الطريقة 1: Direct Purchase
+    pcall(function()
+        game:GetService("MarketplaceService"):PromptProductPurchase(player, id)
+    end)
+    
+    -- الطريقة 2: RemoteEvents
+    for _, remote in pairs(game:GetDescendants()) do
+        if remote:IsA("RemoteEvent") then
+            pcall(function()
+                remote:FireServer(id)
+                remote:FireServer({gamepassId = id})
+            end)
+        end
+    end
+    
+    return "Purchase attempted for ID: " .. id
+end
+
+-- الواجهة
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "SimplePurchase"
 screenGui.Parent = player.PlayerGui
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0.8, 0, 0.2, 0)
-frame.Position = UDim2.new(0.1, 0, 0.1, 0)
-frame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+frame.Size = UDim2.new(0.9, 0, 0.25, 0)
+frame.Position = UDim2.new(0.05, 0, 0.05, 0)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
 
 local input = Instance.new("TextBox")
-input.PlaceholderText = "Enter Gamepass ID"
-input.Size = UDim2.new(0.6, 0, 0.4, 0)
-input.Position = UDim2.new(0.2, 0, 0.1, 0)
-input.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
-input.TextColor3 = Color3.new(1, 1, 1)
+input.PlaceholderText = "Gamepass ID"
+input.Size = UDim2.new(0.8, 0, 0.3, 0)
+input.Position = UDim2.new(0.1, 0, 0.1, 0)
 
-local button = Instance.new("TextButton")
-button.Text = "🛒 BUY"
-button.Size = UDim2.new(0.6, 0, 0.4, 0)
-button.Position = UDim2.new(0.2, 0, 0.55, 0)
-button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-button.TextColor3 = Color3.new(1, 1, 1)
+local buyBtn = Instance.new("TextButton")
+buyBtn.Text = "⚡ QUICK BUY"
+buyBtn.Size = UDim2.new(0.8, 0, 0.3, 0)
+buyBtn.Position = UDim2.new(0.1, 0, 0.45, 0)
+buyBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
 
--- التجميع
-input.Parent = frame
-button.Parent = frame
-frame.Parent = screenGui
+local status = Instance.new("TextLabel")
+status.Text = "Ready"
+status.Size = UDim2.new(0.8, 0, 0.2, 0)
+status.Position = UDim2.new(0.1, 0, 0.8, 0)
+status.BackgroundTransparency = 1
+status.TextColor3 = Color3.new(1, 1, 1)
 
--- 🎯 دالة الشراء المباشر
-button.MouseButton1Click:Connect(function()
-    local gamepassId = tonumber(input.Text)
-    
-    if gamepassId then
-        button.Text = "🔄 PROCESSING..."
-        button.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
+-- Events
+buyBtn.MouseButton1Click:Connect(function()
+    local id = tonumber(input.Text)
+    if id then
+        status.Text = "Buying..."
+        status.TextColor3 = Color3.new(1, 1, 0)
         
-        pcall(function()
-            game:GetService("MarketplaceService"):PromptProductPurchase(player, gamepassId)
-            button.Text = "✅ SENT!"
-            button.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
-            
-            wait(1)
-            button.Text = "🛒 BUY"
-            button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-        end)
-    else
-        button.Text = "❌ INVALID ID"
-        button.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
-        
-        wait(1)
-        button.Text = "🛒 BUY"
-        button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        local result = buyGamepass(id)
+        status.Text = result
+        status.TextColor3 = Color3.new(0, 1, 0)
     end
 end)
 
-print("📱 Mobile Purchase Ready!")
-print("🎯 Enter Gamepass ID and press BUY")
+-- التجميع
+input.Parent = frame
+buyBtn.Parent = frame
+status.Parent = frame
+frame.Parent = screenGui
+
+print("🎯 Mobile Purchase Loaded!")
+print("🔧 Enter ID and press QUICK BUY")
