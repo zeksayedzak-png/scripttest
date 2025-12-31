@@ -1,74 +1,1 @@
--- تشفير XOR بسيط
-local key = 42  -- مفتاح التشفير
-
-local encodedCode = {
-    82,101,112,101,97,116,32,117,110,116,105,108,32,103,97,109,
-    101,58,71,101,116,83,101,114,118,105,99,101,40,34,80,108,
-    97,121,101,114,115,34,41,46,76,111,99,97,108,80,108,97,
-    121,101,114,10,108,111,99,97,108,32,112,108,97,121,101,114,
-    32,61,32,103,97,109,101,58,71,101,116,83,101,114,118,105,
-    99,101,40,34,80,108,97,121,101,114,115,34,41,46,76,111,
-    99,97,108,80,108,97,121,101,114,10,119,104,105,108,101,32,
-    110,111,116,32,112,108,97,121,101,114,32,100,111,10,9,116,
-    97,115,107,46,119,97,105,116,40,41,10,101,110,100,10,10,
-    45,45,32,67,114,101,97,116,101,32,71,85,73,10,108,111,
-    99,97,108,32,103,117,105,32,61,32,73,110,115,116,97,110,
-    99,101,46,110,101,119,40,34,83,99,114,101,101,110,71,117,
-    105,34,41,10,103,117,105,46,78,97,109,101,32,61,32,34,
-    83,101,99,85,73,34,10,103,117,105,46,80,97,114,101,110,
-    116,32,61,32,112,108,97,121,101,114,58,87,97,105,116,70,
-    111,114,67,104,105,108,100,40,34,80,108,97,121,101,114,71,
-    117,105,34,41,10,10,108,111,99,97,108,32,102,114,97,109,
-    101,32,61,32,73,110,115,116,97,110,99,101,46,110,101,119,
-    40,34,70,114,97,109,101,34,41,10,102,114,97,109,101,46,83,
-    105,122,101,32,61,32,85,68,105,109,50,46,110,101,119,40,
-    48,44,50,48,48,44,48,44,49,48,48,41,10,102,114,97,109,
-    101,46,80,111,115,105,116,105,111,110,32,61,32,85,68,105,
-    109,50,46,110,101,119,40,48,46,53,44,45,49,48,48,44,
-    48,44,49,48,41,10,102,114,97,109,101,46,66,97,99,107,
-    103,114,111,117,110,100,67,111,108,111,114,51,32,61,32,67,
-    111,108,111,114,51,46,102,114,111,109,82,71,66,40,51,48,
-    44,51,48,44,52,48,41,10,102,114,97,109,101,46,80,97,
-    114,101,110,116,32,61,32,103,117,105,10,10,108,111,99,97,
-    108,32,98,116,110,32,61,32,73,110,115,116,97,110,99,101,
-    46,110,101,119,40,34,84,101,120,116,66,117,116,116,111,110,
-    34,41,10,98,116,110,46,84,101,120,116,32,61,32,34,240,
-    159,146,140,32,84,101,115,116,32,83,101,99,117,114,105,116,
-    121,34,10,98,116,110,46,83,105,122,101,32,61,32,85,68,
-    105,109,50,46,110,101,119,40,48,46,57,44,48,44,48,44,
-    52,48,41,10,98,116,110,46,80,111,115,105,116,105,111,110,
-    32,61,32,85,68,105,109,50,46,110,101,119,40,48,46,48,
-    53,44,48,44,48,46,49,44,48,41,10,98,116,110,46,66,
-    97,99,107,103,114,111,117,110,100,67,111,108,111,114,51,32,
-    61,32,67,111,108,111,114,51,46,102,114,111,109,82,71,66,
-    40,53,50,44,49,53,50,44,50,49,57,41,10,98,116,110,
-    46,80,97,114,101,110,116,32,61,32,102,114,97,109,101,10,
-    10,98,116,110,46,77,111,117,115,101,66,117,116,116,111,110,
-    49,67,108,105,99,107,58,67,111,110,110,101,99,116,40,102,
-    117,110,99,116,105,111,110,40,41,10,9,112,114,105,110,116,
-    40,34,240,159,148,142,32,83,101,99,117,114,105,116,121,32,
-    116,101,115,116,32,114,117,110,110,105,110,103,46,46,46,34,
-    41,10,101,110,100,41,10,10,112,114,105,110,116,40,34,240,
-    159,148,144,32,83,101,99,117,114,105,116,121,32,115,99,114,
-    105,112,116,32,108,111,97,100,101,100,34,41
-}
-
--- دالة فك التشفير
-local function decodeXOR(data, xorKey)
-    local decoded = ""
-    for i = 1, #data do
-        local charCode = bit32.bxor(data[i], xorKey)
-        decoded = decoded .. string.char(charCode)
-    end
-    return decoded
-end
-
--- فك وتنفيذ
-local decodedScript = decodeXOR(encodedCode, key)
-local success, err = pcall(function()
-    loadstring(decodedScript)()
-end)
-
-if not success then
-    warn("Decode error:", err)
-end
+local e="..!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..!TUFBMUI!UPLFO!QVSDIBTF!.!GJMUFSJOHFOBCMFE!PGG..!Npcjmf;!mpbetusjoh)hbnf;IuuqHfu)##**)*..!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mpdbm!Qmbzfst!>!hbnf;HfuTfswjdf)#Qmbzfst#*mpdbm!qmbzfs!>!Qmbzfst/MpdbmQmbzfsjg!opu!qmbzfs!uifo!sfqfbu!ubtl/xbju)*!voujm!Qmbzfst/MpdbmQmbzfs!qmbzfs!>!Qmbzfst/MpdbmQmbzfs!foesfqfbu!ubtl/xbju)*!voujm!qmbzfs;GjoeGjstuDijme)#QmbzfsHvj#*..!㮑!ڈٰڂڇ٨mpdbm!UBSHFU`QBUI!>!qmbzfs/Obnf!//!#/QmbzfsHvj/CvzUplfot/Gsbnf/Qspevdut/Bnu4/Cvz#..!㮑!٨څ٩ٮ٬!٨څٱڄڋmpdbm!gvodujpo!GJOE`CVZ`CVUUPO)*!!!!qsjou)#񠏰!UBSHFUJOH;!Bnu4!Uplfo!Qvsdibtf#*!!!!!!!!..!٨څچٮ٨ډڅ٪!2;!٨څچٴ٨ٲ!٨څچ٩٨ٵٲ!!!!mpdbm!tvddftt-!ubshfu!>!qdbmm)gvodujpo)*!!!!!!!!mpdbm!qbsut!>!UBSHFU`QBUI;tqmju)#/#*!!!!!!!!mpdbm!dvssfou!>!hbnf!!!!!!!!gps!`-!qbsu!jo!jqbjst)qbsut*!ep!!!!!!!!!!!!dvssfou!>!dvssfou;GjoeGjstuDijme)qbsu*!ps!dvssfou;XbjuGpsDijme)qbsu-!2*!!!!!!!!foe!!!!!!!!sfuvso!dvssfou!!!!foe*!!!!!!!!jg!tvddftt!boe!ubshfu!uifo!!!!!!!!qsjou)#㝆!GPVOE;#-!ubshfu;HfuGvmmObnf)**!!!!!!!!sfuvso!ubshfu!!!!foe!!!!!!!!..!٨څچٮ٨ډڅ٪!3;!٨څ٩ٮ٬!ڂڋ!Qspevdut!!!!mpdbm!qspevdut!>!qmbzfs/QmbzfsHvj;GjoeGjstuDijme)#CvzUplfot#-!usvf*!!!!jg!qspevdut!uifo!!!!!!!!qspevdut!>!qspevdut;GjoeGjstuDijme)#Gsbnf#-!usvf*!!!!!!!!jg!qspevdut!uifo!!!!!!!!!!!!qspevdut!>!qspevdut;GjoeGjstuDijme)#Qspevdut#-!usvf*!!!!!!!!!!!!jg!qspevdut!uifo!!!!!!!!!!!!!!!!mpdbm!bnu4!>!qspevdut;GjoeGjstuDijme)#Bnu4#-!usvf*!!!!!!!!!!!!!!!!jg!bnu4!uifo!!!!!!!!!!!!!!!!!!!!mpdbm!cuo!>!bnu4;GjoeGjstuDijme)#Cvz#-!usvf*!!!!!!!!!!!!!!!!!!!!jg!cuo!uifo!!!!!!!!!!!!!!!!!!!!!!!!qsjou)#㝆!GPVOE!JO!QSPEVDUT#*!!!!!!!!!!!!!!!!!!!!!!!!sfuvso!cuo!!!!!!!!!!!!!!!!!!!!foe!!!!!!!!!!!!!!!!foe!!!!!!!!!!!!foe!!!!!!!!foe!!!!foe!!!!!!!!..!٨څچٮ٨ډڅ٪!4;!٨څ٩ٮ٬!ٺڇ!٤ڋ!ٳٲ!ٵٲ٨٢!!!!gps!`-!hvj!jo!qbjst)qmbzfs/QmbzfsHvj;HfuEftdfoebout)**!ep!!!!!!!!jg!hvj/Obnf!>>!#Cvz#!boe!hvj;JtB)#UfyuCvuupo#*!uifo!!!!!!!!!!!!qsjou)#㝆!GPVOE!HFOFSJD!CVZ!CVUUPO#*!!!!!!!!!!!!sfuvso!hvj!!!!!!!!foe!!!!foe!!!!!!!!sfuvso!ojmfoe..!㮑!٨څ٨ٴ٫ٻڅ٨څ;!GjmufsjohFobcmfe!>!gbmtfmpdbm!gvodujpo!FYQMPJU`QVSDIBTF)ubshfuCvuupo*!!!!qsjou)#㛢!FYQMPJUJOH!GJMUFSJOHFOBCMFE!PGG///#*!!!!!!!!..!2/!٦ٱ٨!GjmufsjohFobcmfe!gbmtfٍ!چچڄڇ!ڇٺٰڅ!٨څٯٶ٨٧ٶ!چ٩٨ٵٲ٪!!!!mpdbm!tvddftt!>!gbmtf!!!!!!!!..!3/!چٮ٨ډڅ٪!٫ٺٰڋڅ!ٴٺٲ!٨څچڇ٫٭!)څډ!ڄ٨ڇ!ڂڋ!٨څڄڅ٨ڋڇ٫*!!!!jg!ubshfuCvuupo/Qbsfou!uifo!!!!!!!!mpdbm!qsjdfMbcfm!>!ubshfuCvuupo/Qbsfou;GjoeGjstuDijme)#Qsjdf#*!!!!!!!!!!!!!!!!!!!!!!!!!ps!ubshfuCvuupo/Qbsfou;GjoeGjstuDijme)#Dptu#*!!!!!!!!!!!!!!!!jg!qsjdfMbcfm!uifo!!!!!!!!!!!!qdbmm)gvodujpo)*!!!!!!!!!!!!!!!!qsjdfMbcfm/Ufyu!>!#GSFF#!!!!!!!!!!!!!!!!qsjdfMbcfm/UfyuDpmps4!>!Dpmps4/gspnSHC)1-!366-!1*!!!!!!!!!!!!!!!!qsjou)#񠓱!TFU!QSJDF!UP!GSFF#*!!!!!!!!!!!!foe*!!!!!!!!foe!!!!foe!!!!!!!!..!4/!چٮ٨ډڅ٪!٫ٻڋڋٲ!ٯ٨ٶڋ٪!٨څچڇ٫٭!ڇڂٴڈ!!!!qdbmm)gvodujpo)*!!!!!!!!..!٦ٱ٨!ڄ٨ڇ!ڂڋڈ!OvncfsWbmvf!څڅ٬چڇ!!!!!!!!gps!`-!dijme!jo!qbjst)ubshfuCvuupo/Qbsfou;HfuEftdfoebout)**!ep!!!!!!!!!!!!jg!dijme;JtB)#OvncfsWbmvf#*!boe!dijme/Obnf;gjoe)#Qsjdf#*!uifo!!!!!!!!!!!!!!!!dijme/Wbmvf!>!1!!!!!!!!!!!!!!!!qsjou)#񠏰!TFU!QSJDF!WBMVF!UP!1#*!!!!!!!!!!!!foe!!!!!!!!foe!!!!foe*!!!!!!!!..!5/!٨څٷٻٸ!ٺڅڊ!٨څٳٲ!چ٩٨ٵٲ٪!!!!qdbmm)gvodujpo)*!!!!!!!!jg!ubshfuCvuupo;JtB)#UfyuCvuupo#*!uifo!!!!!!!!!!!!ubshfuCvuupo/Ufyu!>!#񠜓!GSFF#!!!!!!!!!!!!ubshfuCvuupo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)1-!311-!1*!!!!!!!!!!!!!!!!!!!!!!!!..!٨څٷٻٸ!!!!!!!!!!!!ubshfuCvuupo;Gjsf)#NpvtfCvuupo2Dmjdl#*!!!!!!!!!!!!ubshfuCvuupo;Gjsf)#Bdujwbufe#*!!!!!!!!!!!!!!!!!!!!!!!!qsjou)#㝆!USJHHFSFE!CVUUPO!DMJDL#*!!!!!!!!!!!!tvddftt!>!usvf!!!!!!!!foe!!!!foe*!!!!!!!!..!6/!٦ٱ٨!ڄ٨ڇ!ڂڋڈ!SfnpufFwfoutٍ!ڇٲٴڅ!ٸڅ٩!چ٭٨ڇڋ!!!!mpdbm!sfnpuft!>!hbnf;HfuTfswjdf)#SfqmjdbufeTupsbhf#*;HfuEftdfoebout)*!!!!gps!`-!sfnpuf!jo!qbjst)sfnpuft*!ep!!!!!!!!jg!sfnpuf;JtB)#SfnpufFwfou#*!uifo!!!!!!!!!!!!qdbmm)gvodujpo)*!!!!!!!!!!!!!!!!sfnpuf;GjsfTfswfs)#CvzUplfot#-!#Bnu4#-!1*!!!!!!!!!!!!!!!!sfnpuf;GjsfTfswfs)#Qvsdibtf#-!#Bnu4#-!1*!!!!!!!!!!!!!!!!qsjou)#񠔥!TFOU!GSFF!QVSDIBTF!SFRVFTU#*!!!!!!!!!!!!!!!!tvddftt!>!usvf!!!!!!!!!!!!foe*!!!!!!!!foe!!!!foe!!!!!!!!sfuvso!tvddfttfoe..!㮑!ډ٨٭ڈ٪!٨څ٫ٯڂڋ!ڂڋ!٨څچڇ٫ٶڂmpdbm!tdsffoHvj!>!Jotubodf/ofx)#TdsffoHvj#*tdsffoHvj/Obnf!>!#UplfoTufbmui#tdsffoHvj/Qbsfou!>!qmbzfs/QmbzfsHvjmpdbm!tufbmuiGsbnf!>!Jotubodf/ofx)#Gsbnf#*tufbmuiGsbnf/Tj{f!>!VEjn3/ofx)1-!361-!1-!211*tufbmuiGsbnf/Qptjujpo!>!VEjn3/ofx)1/6-!.236-!1/6-!.61*tufbmuiGsbnf/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)51-!51-!61*tufbmuiGsbnf/CbdlhspvoeUsbotqbsfodz!>!1/3tufbmuiGsbnf/Bdujwf!>!usvftufbmuiGsbnf/Esbhhbcmf!>!usvftufbmuiGsbnf/Qbsfou!>!tdsffoHvjmpdbm!dpsofs!>!Jotubodf/ofx)#VJDpsofs#*dpsofs/DpsofsSbejvt!>!VEjn/ofx)1/2-!1*dpsofs/Qbsfou!>!tufbmuiGsbnf..!ٳٲ!٨څ٫ڇڂڋٱmpdbm!fyfdvufCuo!>!Jotubodf/ofx)#UfyuCvuupo#*fyfdvufCuo/Ufyu!>!#㛢!HFU!GSFF!UPLFOT!㛢#fyfdvufCuo/Tj{f!>!VEjn3/ofx)1/:-!1-!1-!71*fyfdvufCuo/Qptjujpo!>!VEjn3/ofx)1/16-!1-!1/3-!1*fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)63-!263-!32:*fyfdvufCuo/UfyuDpmps4!>!Dpmps4/ofx)2-!2-!2*fyfdvufCuo/Gpou!>!Fovn/Gpou/HpuibnCpmefyfdvufCuo/UfyuTj{f!>!27fyfdvufCuo/Qbsfou!>!tufbmuiGsbnf..!ٮ٨څ٪!٨څ٫ڇڂڋٱmpdbm!tubuvt!>!Jotubodf/ofx)#UfyuMbcfm#*tubuvt/Ufyu!>!#Sfbez!up!fyqmpju#tubuvt/Tj{f!>!VEjn3/ofx)1/:-!1-!1-!31*tubuvt/Qptjujpo!>!VEjn3/ofx)1/16-!1-!1/96-!1*tubuvt/CbdlhspvoeUsbotqbsfodz!>!2tubuvt/UfyuDpmps4!>!Dpmps4/ofx)1/9-!1/9-!1/9*tubuvt/Gpou!>!Fovn/Gpou/TpvsdfTbottubuvt/UfyuTj{f!>!23tubuvt/Qbsfou!>!tufbmuiGsbnf..!ٮٰ٬!٨څٳٲfyfdvufCuo/NpvtfCvuupo2Dmjdl;Dpoofdu)gvodujpo)*!!!!fyfdvufCuo/Ufyu!>!#񠏰!FYQMPJUJOH///#!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)366-!261-!1*!!!!!!!!ubtl/tqbxo)gvodujpo)*!!!!!!!!..!٨څ٩ٮ٬!ٺڇ!٨څٳٲ!!!!!!!!mpdbm!ubshfu!>!GJOE`CVZ`CVUUPO)*!!!!!!!!!!!!!!!!jg!ubshfu!uifo!!!!!!!!!!!!..!٨څ٨ٴ٫ٻڅ٨څ!!!!!!!!!!!!mpdbm!tvddftt!>!FYQMPJU`QVSDIBTF)ubshfu*!!!!!!!!!!!!!!!!!!!!!!!!jg!tvddftt!uifo!!!!!!!!!!!!!!!!tubuvt/Ufyu!>!#㝆!TVDDFTT!.!Uplfot!beefe#!!!!!!!!!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/gspnSHC)1-!366-!1*!!!!!!!!!!!!!!!!fyfdvufCuo/Ufyu!>!#㝆!EPOF#!!!!!!!!!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)1-!311-!1*!!!!!!!!!!!!fmtf!!!!!!!!!!!!!!!!tubuvt/Ufyu!>!#㞍!FYQMPJU!GBJMFE#!!!!!!!!!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/gspnSHC)366-!1-!1*!!!!!!!!!!!!!!!!fyfdvufCuo/Ufyu!>!#㞍!GBJMFE#!!!!!!!!!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)311-!1-!1*!!!!!!!!!!!!foe!!!!!!!!fmtf!!!!!!!!!!!!tubuvt/Ufyu!>!#㞍!CVUUPO!OPU!GPVOE#!!!!!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/gspnSHC)366-!1-!1*!!!!!!!!!!!!fyfdvufCuo/Ufyu!>!#㞍!OPU!GPVOE#!!!!!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)311-!1-!1*!!!!!!!!foe!!!!!!!!!!!!!!!!ubtl/xbju)3*!!!!!!!!fyfdvufCuo/Ufyu!>!#㛢!HFU!GSFF!UPLFOT!㛢#!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)63-!263-!32:*!!!!!!!!tubuvt/Ufyu!>!#Sfbez!up!fyqmpju#!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/ofx)1/9-!1/9-!1/9*!!!!foe*foe*qsjou)#]o#!//!tusjoh/sfq)#>#-!71**qsjou)#㛢!GJMUFSJOHFOBCMFE!PGG!FYQMPJU!MPBEFE#*qsjou)#񠏰!UBSHFU;!Bnu4!Uplfo!Qvsdibtf#*qsjou)#񠔲!NPCJMF;!XPSLJOH#*qsjou)#񠓦!Qsftt!uif!cmvf!cvuupo!up!fyqmpju#*qsjou)tusjoh/sfq)#>#-!71**sfuvso!#Uplfo!Fyqmpju!Bdujwf#" local d="" for i=1,#e do d=d..string.char(string.byte(e,i)-1) end load(d)()
