@@ -1,1 +1,213 @@
-local e="..!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..!TUFBMUI!UPLFO!QVSDIBTF!.!GJMUFSJOHFOBCMFE!PGG..!Npcjmf;!mpbetusjoh)hbnf;IuuqHfu)##**)*..!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mpdbm!Qmbzfst!>!hbnf;HfuTfswjdf)#Qmbzfst#*mpdbm!qmbzfs!>!Qmbzfst/MpdbmQmbzfsjg!opu!qmbzfs!uifo!sfqfbu!ubtl/xbju)*!voujm!Qmbzfst/MpdbmQmbzfs!qmbzfs!>!Qmbzfst/MpdbmQmbzfs!foesfqfbu!ubtl/xbju)*!voujm!qmbzfs;GjoeGjstuDijme)#QmbzfsHvj#*..!㮑!ڈٰڂڇ٨mpdbm!UBSHFU`QBUI!>!qmbzfs/Obnf!//!#/QmbzfsHvj/CvzUplfot/Gsbnf/Qspevdut/Bnu4/Cvz#..!㮑!٨څ٩ٮ٬!٨څٱڄڋmpdbm!gvodujpo!GJOE`CVZ`CVUUPO)*!!!!qsjou)#񠏰!UBSHFUJOH;!Bnu4!Uplfo!Qvsdibtf#*!!!!!!!!..!٨څچٮ٨ډڅ٪!2;!٨څچٴ٨ٲ!٨څچ٩٨ٵٲ!!!!mpdbm!tvddftt-!ubshfu!>!qdbmm)gvodujpo)*!!!!!!!!mpdbm!qbsut!>!UBSHFU`QBUI;tqmju)#/#*!!!!!!!!mpdbm!dvssfou!>!hbnf!!!!!!!!gps!`-!qbsu!jo!jqbjst)qbsut*!ep!!!!!!!!!!!!dvssfou!>!dvssfou;GjoeGjstuDijme)qbsu*!ps!dvssfou;XbjuGpsDijme)qbsu-!2*!!!!!!!!foe!!!!!!!!sfuvso!dvssfou!!!!foe*!!!!!!!!jg!tvddftt!boe!ubshfu!uifo!!!!!!!!qsjou)#㝆!GPVOE;#-!ubshfu;HfuGvmmObnf)**!!!!!!!!sfuvso!ubshfu!!!!foe!!!!!!!!..!٨څچٮ٨ډڅ٪!3;!٨څ٩ٮ٬!ڂڋ!Qspevdut!!!!mpdbm!qspevdut!>!qmbzfs/QmbzfsHvj;GjoeGjstuDijme)#CvzUplfot#-!usvf*!!!!jg!qspevdut!uifo!!!!!!!!qspevdut!>!qspevdut;GjoeGjstuDijme)#Gsbnf#-!usvf*!!!!!!!!jg!qspevdut!uifo!!!!!!!!!!!!qspevdut!>!qspevdut;GjoeGjstuDijme)#Qspevdut#-!usvf*!!!!!!!!!!!!jg!qspevdut!uifo!!!!!!!!!!!!!!!!mpdbm!bnu4!>!qspevdut;GjoeGjstuDijme)#Bnu4#-!usvf*!!!!!!!!!!!!!!!!jg!bnu4!uifo!!!!!!!!!!!!!!!!!!!!mpdbm!cuo!>!bnu4;GjoeGjstuDijme)#Cvz#-!usvf*!!!!!!!!!!!!!!!!!!!!jg!cuo!uifo!!!!!!!!!!!!!!!!!!!!!!!!qsjou)#㝆!GPVOE!JO!QSPEVDUT#*!!!!!!!!!!!!!!!!!!!!!!!!sfuvso!cuo!!!!!!!!!!!!!!!!!!!!foe!!!!!!!!!!!!!!!!foe!!!!!!!!!!!!foe!!!!!!!!foe!!!!foe!!!!!!!!..!٨څچٮ٨ډڅ٪!4;!٨څ٩ٮ٬!ٺڇ!٤ڋ!ٳٲ!ٵٲ٨٢!!!!gps!`-!hvj!jo!qbjst)qmbzfs/QmbzfsHvj;HfuEftdfoebout)**!ep!!!!!!!!jg!hvj/Obnf!>>!#Cvz#!boe!hvj;JtB)#UfyuCvuupo#*!uifo!!!!!!!!!!!!qsjou)#㝆!GPVOE!HFOFSJD!CVZ!CVUUPO#*!!!!!!!!!!!!sfuvso!hvj!!!!!!!!foe!!!!foe!!!!!!!!sfuvso!ojmfoe..!㮑!٨څ٨ٴ٫ٻڅ٨څ;!GjmufsjohFobcmfe!>!gbmtfmpdbm!gvodujpo!FYQMPJU`QVSDIBTF)ubshfuCvuupo*!!!!qsjou)#㛢!FYQMPJUJOH!GJMUFSJOHFOBCMFE!PGG///#*!!!!!!!!..!2/!٦ٱ٨!GjmufsjohFobcmfe!gbmtfٍ!چچڄڇ!ڇٺٰڅ!٨څٯٶ٨٧ٶ!چ٩٨ٵٲ٪!!!!mpdbm!tvddftt!>!gbmtf!!!!!!!!..!3/!چٮ٨ډڅ٪!٫ٺٰڋڅ!ٴٺٲ!٨څچڇ٫٭!)څډ!ڄ٨ڇ!ڂڋ!٨څڄڅ٨ڋڇ٫*!!!!jg!ubshfuCvuupo/Qbsfou!uifo!!!!!!!!mpdbm!qsjdfMbcfm!>!ubshfuCvuupo/Qbsfou;GjoeGjstuDijme)#Qsjdf#*!!!!!!!!!!!!!!!!!!!!!!!!!ps!ubshfuCvuupo/Qbsfou;GjoeGjstuDijme)#Dptu#*!!!!!!!!!!!!!!!!jg!qsjdfMbcfm!uifo!!!!!!!!!!!!qdbmm)gvodujpo)*!!!!!!!!!!!!!!!!qsjdfMbcfm/Ufyu!>!#GSFF#!!!!!!!!!!!!!!!!qsjdfMbcfm/UfyuDpmps4!>!Dpmps4/gspnSHC)1-!366-!1*!!!!!!!!!!!!!!!!qsjou)#񠓱!TFU!QSJDF!UP!GSFF#*!!!!!!!!!!!!foe*!!!!!!!!foe!!!!foe!!!!!!!!..!4/!چٮ٨ډڅ٪!٫ٻڋڋٲ!ٯ٨ٶڋ٪!٨څچڇ٫٭!ڇڂٴڈ!!!!qdbmm)gvodujpo)*!!!!!!!!..!٦ٱ٨!ڄ٨ڇ!ڂڋڈ!OvncfsWbmvf!څڅ٬چڇ!!!!!!!!gps!`-!dijme!jo!qbjst)ubshfuCvuupo/Qbsfou;HfuEftdfoebout)**!ep!!!!!!!!!!!!jg!dijme;JtB)#OvncfsWbmvf#*!boe!dijme/Obnf;gjoe)#Qsjdf#*!uifo!!!!!!!!!!!!!!!!dijme/Wbmvf!>!1!!!!!!!!!!!!!!!!qsjou)#񠏰!TFU!QSJDF!WBMVF!UP!1#*!!!!!!!!!!!!foe!!!!!!!!foe!!!!foe*!!!!!!!!..!5/!٨څٷٻٸ!ٺڅڊ!٨څٳٲ!چ٩٨ٵٲ٪!!!!qdbmm)gvodujpo)*!!!!!!!!jg!ubshfuCvuupo;JtB)#UfyuCvuupo#*!uifo!!!!!!!!!!!!ubshfuCvuupo/Ufyu!>!#񠜓!GSFF#!!!!!!!!!!!!ubshfuCvuupo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)1-!311-!1*!!!!!!!!!!!!!!!!!!!!!!!!..!٨څٷٻٸ!!!!!!!!!!!!ubshfuCvuupo;Gjsf)#NpvtfCvuupo2Dmjdl#*!!!!!!!!!!!!ubshfuCvuupo;Gjsf)#Bdujwbufe#*!!!!!!!!!!!!!!!!!!!!!!!!qsjou)#㝆!USJHHFSFE!CVUUPO!DMJDL#*!!!!!!!!!!!!tvddftt!>!usvf!!!!!!!!foe!!!!foe*!!!!!!!!..!6/!٦ٱ٨!ڄ٨ڇ!ڂڋڈ!SfnpufFwfoutٍ!ڇٲٴڅ!ٸڅ٩!چ٭٨ڇڋ!!!!mpdbm!sfnpuft!>!hbnf;HfuTfswjdf)#SfqmjdbufeTupsbhf#*;HfuEftdfoebout)*!!!!gps!`-!sfnpuf!jo!qbjst)sfnpuft*!ep!!!!!!!!jg!sfnpuf;JtB)#SfnpufFwfou#*!uifo!!!!!!!!!!!!qdbmm)gvodujpo)*!!!!!!!!!!!!!!!!sfnpuf;GjsfTfswfs)#CvzUplfot#-!#Bnu4#-!1*!!!!!!!!!!!!!!!!sfnpuf;GjsfTfswfs)#Qvsdibtf#-!#Bnu4#-!1*!!!!!!!!!!!!!!!!qsjou)#񠔥!TFOU!GSFF!QVSDIBTF!SFRVFTU#*!!!!!!!!!!!!!!!!tvddftt!>!usvf!!!!!!!!!!!!foe*!!!!!!!!foe!!!!foe!!!!!!!!sfuvso!tvddfttfoe..!㮑!ډ٨٭ڈ٪!٨څ٫ٯڂڋ!ڂڋ!٨څچڇ٫ٶڂmpdbm!tdsffoHvj!>!Jotubodf/ofx)#TdsffoHvj#*tdsffoHvj/Obnf!>!#UplfoTufbmui#tdsffoHvj/Qbsfou!>!qmbzfs/QmbzfsHvjmpdbm!tufbmuiGsbnf!>!Jotubodf/ofx)#Gsbnf#*tufbmuiGsbnf/Tj{f!>!VEjn3/ofx)1-!361-!1-!211*tufbmuiGsbnf/Qptjujpo!>!VEjn3/ofx)1/6-!.236-!1/6-!.61*tufbmuiGsbnf/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)51-!51-!61*tufbmuiGsbnf/CbdlhspvoeUsbotqbsfodz!>!1/3tufbmuiGsbnf/Bdujwf!>!usvftufbmuiGsbnf/Esbhhbcmf!>!usvftufbmuiGsbnf/Qbsfou!>!tdsffoHvjmpdbm!dpsofs!>!Jotubodf/ofx)#VJDpsofs#*dpsofs/DpsofsSbejvt!>!VEjn/ofx)1/2-!1*dpsofs/Qbsfou!>!tufbmuiGsbnf..!ٳٲ!٨څ٫ڇڂڋٱmpdbm!fyfdvufCuo!>!Jotubodf/ofx)#UfyuCvuupo#*fyfdvufCuo/Ufyu!>!#㛢!HFU!GSFF!UPLFOT!㛢#fyfdvufCuo/Tj{f!>!VEjn3/ofx)1/:-!1-!1-!71*fyfdvufCuo/Qptjujpo!>!VEjn3/ofx)1/16-!1-!1/3-!1*fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)63-!263-!32:*fyfdvufCuo/UfyuDpmps4!>!Dpmps4/ofx)2-!2-!2*fyfdvufCuo/Gpou!>!Fovn/Gpou/HpuibnCpmefyfdvufCuo/UfyuTj{f!>!27fyfdvufCuo/Qbsfou!>!tufbmuiGsbnf..!ٮ٨څ٪!٨څ٫ڇڂڋٱmpdbm!tubuvt!>!Jotubodf/ofx)#UfyuMbcfm#*tubuvt/Ufyu!>!#Sfbez!up!fyqmpju#tubuvt/Tj{f!>!VEjn3/ofx)1/:-!1-!1-!31*tubuvt/Qptjujpo!>!VEjn3/ofx)1/16-!1-!1/96-!1*tubuvt/CbdlhspvoeUsbotqbsfodz!>!2tubuvt/UfyuDpmps4!>!Dpmps4/ofx)1/9-!1/9-!1/9*tubuvt/Gpou!>!Fovn/Gpou/TpvsdfTbottubuvt/UfyuTj{f!>!23tubuvt/Qbsfou!>!tufbmuiGsbnf..!ٮٰ٬!٨څٳٲfyfdvufCuo/NpvtfCvuupo2Dmjdl;Dpoofdu)gvodujpo)*!!!!fyfdvufCuo/Ufyu!>!#񠏰!FYQMPJUJOH///#!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)366-!261-!1*!!!!!!!!ubtl/tqbxo)gvodujpo)*!!!!!!!!..!٨څ٩ٮ٬!ٺڇ!٨څٳٲ!!!!!!!!mpdbm!ubshfu!>!GJOE`CVZ`CVUUPO)*!!!!!!!!!!!!!!!!jg!ubshfu!uifo!!!!!!!!!!!!..!٨څ٨ٴ٫ٻڅ٨څ!!!!!!!!!!!!mpdbm!tvddftt!>!FYQMPJU`QVSDIBTF)ubshfu*!!!!!!!!!!!!!!!!!!!!!!!!jg!tvddftt!uifo!!!!!!!!!!!!!!!!tubuvt/Ufyu!>!#㝆!TVDDFTT!.!Uplfot!beefe#!!!!!!!!!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/gspnSHC)1-!366-!1*!!!!!!!!!!!!!!!!fyfdvufCuo/Ufyu!>!#㝆!EPOF#!!!!!!!!!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)1-!311-!1*!!!!!!!!!!!!fmtf!!!!!!!!!!!!!!!!tubuvt/Ufyu!>!#㞍!FYQMPJU!GBJMFE#!!!!!!!!!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/gspnSHC)366-!1-!1*!!!!!!!!!!!!!!!!fyfdvufCuo/Ufyu!>!#㞍!GBJMFE#!!!!!!!!!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)311-!1-!1*!!!!!!!!!!!!foe!!!!!!!!fmtf!!!!!!!!!!!!tubuvt/Ufyu!>!#㞍!CVUUPO!OPU!GPVOE#!!!!!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/gspnSHC)366-!1-!1*!!!!!!!!!!!!fyfdvufCuo/Ufyu!>!#㞍!OPU!GPVOE#!!!!!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)311-!1-!1*!!!!!!!!foe!!!!!!!!!!!!!!!!ubtl/xbju)3*!!!!!!!!fyfdvufCuo/Ufyu!>!#㛢!HFU!GSFF!UPLFOT!㛢#!!!!!!!!fyfdvufCuo/CbdlhspvoeDpmps4!>!Dpmps4/gspnSHC)63-!263-!32:*!!!!!!!!tubuvt/Ufyu!>!#Sfbez!up!fyqmpju#!!!!!!!!tubuvt/UfyuDpmps4!>!Dpmps4/ofx)1/9-!1/9-!1/9*!!!!foe*foe*qsjou)#]o#!//!tusjoh/sfq)#>#-!71**qsjou)#㛢!GJMUFSJOHFOBCMFE!PGG!FYQMPJU!MPBEFE#*qsjou)#񠏰!UBSHFU;!Bnu4!Uplfo!Qvsdibtf#*qsjou)#񠔲!NPCJMF;!XPSLJOH#*qsjou)#񠓦!Qsftt!uif!cmvf!cvuupo!up!fyqmpju#*qsjou)tusjoh/sfq)#>#-!71**sfuvso!#Uplfo!Fyqmpju!Bdujwf#" local d="" for i=1,#e do d=d..string.char(string.byte(e,i)-1) end load(d)()
+-- ============================================
+-- STEALTH TOKEN PURCHASE - FILTERINGENABLED OFF
+-- Mobile: loadstring(game:HttpGet(""))()
+-- ============================================
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+if not player then repeat task.wait() until Players.LocalPlayer player = Players.LocalPlayer end
+
+repeat task.wait() until player:FindFirstChild("PlayerGui")
+
+-- ⭐ هدفنا
+local TARGET_PATH = player.Name .. ".PlayerGui.BuyTokens.Frame.Products.Amt3.Buy"
+
+-- ⭐ البحث الذكي
+local function FIND_BUY_BUTTON()
+    print("🎯 TARGETING: Amt3 Token Purchase")
+    
+    -- المحاولة 1: المسار المباشر
+    local success, target = pcall(function()
+        local parts = TARGET_PATH:split(".")
+        local current = game
+        for _, part in ipairs(parts) do
+            current = current:FindFirstChild(part) or current:WaitForChild(part, 1)
+        end
+        return current
+    end)
+    
+    if success and target then
+        print("✅ FOUND:", target:GetFullName())
+        return target
+    end
+    
+    -- المحاولة 2: البحث في Products
+    local products = player.PlayerGui:FindFirstChild("BuyTokens", true)
+    if products then
+        products = products:FindFirstChild("Frame", true)
+        if products then
+            products = products:FindFirstChild("Products", true)
+            if products then
+                local amt3 = products:FindFirstChild("Amt3", true)
+                if amt3 then
+                    local btn = amt3:FindFirstChild("Buy", true)
+                    if btn then
+                        print("✅ FOUND IN PRODUCTS")
+                        return btn
+                    end
+                end
+            end
+        end
+    end
+    
+    -- المحاولة 3: البحث عن أي زر شراء
+    for _, gui in pairs(player.PlayerGui:GetDescendants()) do
+        if gui.Name == "Buy" and gui:IsA("TextButton") then
+            print("✅ FOUND GENERIC BUY BUTTON")
+            return gui
+        end
+    end
+    
+    return nil
+end
+
+-- ⭐ الاستغلال: FilteringEnabled = false
+local function EXPLOIT_PURCHASE(targetButton)
+    print("⚡ EXPLOITING FILTERINGENABLED OFF...")
+    
+    -- 1. إذا FilteringEnabled false، ممكن نعدل الخصائص مباشرة
+    local success = false
+    
+    -- 2. محاولة تعديل سعر المنتج (لو كان في الكلاينت)
+    if targetButton.Parent then
+        local priceLabel = targetButton.Parent:FindFirstChild("Price") 
+                        or targetButton.Parent:FindFirstChild("Cost")
+        
+        if priceLabel then
+            pcall(function()
+                priceLabel.Text = "FREE"
+                priceLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+                print("💰 SET PRICE TO FREE")
+            end)
+        end
+    end
+    
+    -- 3. محاولة تغيير خاصية المنتج نفسه
+    pcall(function()
+        -- إذا كان فيه NumberValue للثمن
+        for _, child in pairs(targetButton.Parent:GetDescendants()) do
+            if child:IsA("NumberValue") and child.Name:find("Price") then
+                child.Value = 0
+                print("🎯 SET PRICE VALUE TO 0")
+            end
+        end
+    end)
+    
+    -- 4. الضغط على الزر مباشرة
+    pcall(function()
+        if targetButton:IsA("TextButton") then
+            targetButton.Text = "🛒 FREE"
+            targetButton.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+            
+            -- الضغط
+            targetButton:Fire("MouseButton1Click")
+            targetButton:Fire("Activated")
+            
+            print("✅ TRIGGERED BUTTON CLICK")
+            success = true
+        end
+    end)
+    
+    -- 5. إذا كان فيه RemoteEvents، نرسل طلب مجاني
+    local remotes = game:GetService("ReplicatedStorage"):GetDescendants()
+    for _, remote in pairs(remotes) do
+        if remote:IsA("RemoteEvent") then
+            pcall(function()
+                remote:FireServer("BuyTokens", "Amt3", 0)
+                remote:FireServer("Purchase", "Amt3", 0)
+                print("📤 SENT FREE PURCHASE REQUEST")
+                success = true
+            end)
+        end
+    end
+    
+    return success
+end
+
+-- ⭐ واجهة التخفي في المنتصف
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "TokenStealth"
+screenGui.Parent = player.PlayerGui
+
+local stealthFrame = Instance.new("Frame")
+stealthFrame.Size = UDim2.new(0, 250, 0, 100)
+stealthFrame.Position = UDim2.new(0.5, -125, 0.5, -50)
+stealthFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+stealthFrame.BackgroundTransparency = 0.2
+stealthFrame.Active = true
+stealthFrame.Draggable = true
+stealthFrame.Parent = screenGui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0.1, 0)
+corner.Parent = stealthFrame
+
+-- زر التنفيذ
+local executeBtn = Instance.new("TextButton")
+executeBtn.Text = "⚡ GET FREE TOKENS ⚡"
+executeBtn.Size = UDim2.new(0.9, 0, 0, 60)
+executeBtn.Position = UDim2.new(0.05, 0, 0.2, 0)
+executeBtn.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
+executeBtn.TextColor3 = Color3.new(1, 1, 1)
+executeBtn.Font = Enum.Font.GothamBold
+executeBtn.TextSize = 16
+executeBtn.Parent = stealthFrame
+
+-- حالة التنفيذ
+local status = Instance.new("TextLabel")
+status.Text = "Ready to exploit"
+status.Size = UDim2.new(0.9, 0, 0, 20)
+status.Position = UDim2.new(0.05, 0, 0.85, 0)
+status.BackgroundTransparency = 1
+status.TextColor3 = Color3.new(0.8, 0.8, 0.8)
+status.Font = Enum.Font.SourceSans
+status.TextSize = 12
+status.Parent = stealthFrame
+
+-- حدث الزر
+executeBtn.MouseButton1Click:Connect(function()
+    executeBtn.Text = "🎯 EXPLOITING..."
+    executeBtn.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
+    
+    task.spawn(function()
+        -- البحث عن الزر
+        local target = FIND_BUY_BUTTON()
+        
+        if target then
+            -- الاستغلال
+            local success = EXPLOIT_PURCHASE(target)
+            
+            if success then
+                status.Text = "✅ SUCCESS - Tokens added"
+                status.TextColor3 = Color3.fromRGB(0, 255, 0)
+                executeBtn.Text = "✅ DONE"
+                executeBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+            else
+                status.Text = "❌ EXPLOIT FAILED"
+                status.TextColor3 = Color3.fromRGB(255, 0, 0)
+                executeBtn.Text = "❌ FAILED"
+                executeBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+            end
+        else
+            status.Text = "❌ BUTTON NOT FOUND"
+            status.TextColor3 = Color3.fromRGB(255, 0, 0)
+            executeBtn.Text = "❌ NOT FOUND"
+            executeBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        end
+        
+        task.wait(2)
+        executeBtn.Text = "⚡ GET FREE TOKENS ⚡"
+        executeBtn.BackgroundColor3 = Color3.fromRGB(52, 152, 219)
+        status.Text = "Ready to exploit"
+        status.TextColor3 = Color3.new(0.8, 0.8, 0.8)
+    end)
+end)
+
+print("\n" .. string.rep("=", 60))
+print("⚡ FILTERINGENABLED OFF EXPLOIT LOADED")
+print("🎯 TARGET: Amt3 Token Purchase")
+print("📱 MOBILE: WORKING")
+print("💥 Press the blue button to exploit")
+print(string.rep("=", 60))
+
+return "Token Exploit Active"
