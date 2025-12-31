@@ -1,297 +1,309 @@
--- 📱 Mobile RemoteFunction Hacker (الطريقة الثالثة)
--- RemoteFunctions Invoke Only - خفيف للموبايل
+-- ⚡ Rapid Fire Attack with Anti-Kick Protection
+-- loadstring(game:HttpGet("رابط_هذا_الكود"))()
 
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
+local player = game.Players.LocalPlayer
+local isAttacking = false
+local requestCount = 0
+local requestsPerSecond = 10
 
--- 🔧 الإعدادات
-local settings = {
-    gamepassId = nil,
-    invokeCount = 2,          -- مرتين لكل RemoteFunction
-    delay = 0.4,             -- تأخير أطول للموبايل
+-- 🔧 نظام الحماية من الطرد (مضاف جديد)
+local AntiKick = {
+    safeMode = true,                   -- وضع الحماية مفعل
+    maxRequestsPerMinute = 180,        -- 180 طلب في الدقيقة كحد أقصى
+    requestsThisMinute = 0,
+    lastRequestTime = tick(),
+    requestHistory = {},
+    
+    -- تحقق إذا الوضع آمن للإرسال
+    canSendRequest = function(self)
+        if not self.safeMode then return true end
+        
+        local now = tick()
+        local timeDiff = now - self.lastRequestTime
+        
+        -- تنظيف التاريخ القديم
+        for i = #self.requestHistory, 1, -1 do
+            if now - self.requestHistory[i] > 60 then -- 60 ثانية
+                table.remove(self.requestHistory, i)
+            end
+        end
+        
+        -- إذا عدد الطلبات في الدقيقة أقل من الحد
+        if #self.requestHistory < self.maxRequestsPerMinute then
+            table.insert(self.requestHistory, now)
+            self.lastRequestTime = now
+            self.requestsThisMinute = #self.requestHistory
+            return true
+        else
+            return false, "Rate limit reached. Waiting..."
+        end
+    end,
+    
+    -- تأخير ذكي بناءً على الحمل
+    getSmartDelay = function(self)
+        if #self.requestHistory < 30 then
+            return 0.1 -- سريع في البداية
+        elseif #self.requestHistory < 90 then
+            return 0.3 -- متوسط
+        elseif #self.requestHistory < 150 then
+            return 0.5 -- بطيء
+        else
+            return 1.0 -- بطيء جداً قرب الحد
+        end
+    end
 }
 
--- ⚡ الطريقة الثالثة: RemoteFunction Invoke
-local function hackRemoteFunctions(gamepassId)
-    if not gamepassId or type(gamepassId) ~= "number" then
-        return "❌ Gamepass ID مش صحيح"
-    end
-    
-    print("⚡ بدء RemoteFunction Hack...")
-    
-    local allFunctions = {}
-    local successCount = 0
-    local totalAttempts = 0
-    
-    -- جمع كل الـ RemoteFunctions
-    for _, obj in pairs(game:GetDescendants()) do
-        if obj:IsA("RemoteFunction") then
-            table.insert(allFunctions, obj)
+-- 📱 واجهة للهاتف
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "RapidFire"
+screenGui.ResetOnSpawn = false
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(1, 0, 0.5, 0) -- زدنا الإرتفاع
+mainFrame.Position = UDim2.new(0, 0, 0.25, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+mainFrame.BackgroundTransparency = 0.2
+
+-- 🎯 العنوان
+local title = Instance.new("TextLabel")
+title.Text = "⚡ RAPID FIRE ATTACK"
+title.Size = UDim2.new(1, 0, 0.1, 0)
+title.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Font = Enum.Font.SourceSansBold
+
+-- 📝 مربع إدخال السرعة
+local speedInput = Instance.new("TextBox")
+speedInput.PlaceholderText = "Requests per second (1-30)"
+speedInput.Text = "10"
+speedInput.Size = UDim2.new(0.9, 0, 0.1, 0)
+speedInput.Position = UDim2.new(0.05, 0, 0.12, 0)
+speedInput.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+speedInput.TextColor3 = Color3.new(1, 1, 1)
+speedInput.Font = Enum.Font.SourceSansBold
+speedInput.TextSize = 16
+
+-- 🔧 زر تبديل وضع الحماية
+local protectionBtn = Instance.new("TextButton")
+protectionBtn.Text = "🛡️ ANTI-KICK: ON"
+protectionBtn.Size = UDim2.new(0.9, 0, 0.1, 0)
+protectionBtn.Position = UDim2.new(0.05, 0, 0.25, 0)
+protectionBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+protectionBtn.TextColor3 = Color3.new(1, 1, 1)
+protectionBtn.Font = Enum.Font.SourceSansBold
+protectionBtn.TextSize = 16
+
+-- 🔥 زر التشغيل
+local startBtn = Instance.new("TextButton")
+startBtn.Text = "🚀 START ATTACK"
+startBtn.Size = UDim2.new(0.9, 0, 0.2, 0)
+startBtn.Position = UDim2.new(0.05, 0, 0.38, 0)
+startBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
+startBtn.TextColor3 = Color3.new(1, 1, 1)
+startBtn.Font = Enum.Font.SourceSansBold
+startBtn.TextSize = 18
+
+-- ⏹️ زر الإيقاف
+local stopBtn = Instance.new("TextButton")
+stopBtn.Text = "⏹️ STOP"
+stopBtn.Size = UDim2.new(0.9, 0, 0.2, 0)
+stopBtn.Position = UDim2.new(0.05, 0, 0.61, 0)
+stopBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
+stopBtn.TextColor3 = Color3.new(1, 1, 1)
+stopBtn.Font = Enum.Font.SourceSansBold
+stopBtn.TextSize = 18
+
+-- 📊 العداد
+local counter = Instance.new("TextLabel")
+counter.Text = "Requests: 0"
+counter.Size = UDim2.new(1, 0, 0.12, 0)
+counter.Position = UDim2.new(0, 0, 0.83, 0)
+counter.BackgroundTransparency = 1
+counter.TextColor3 = Color3.new(0, 1, 1)
+counter.Font = Enum.Font.SourceSansBold
+counter.TextSize = 16
+
+-- 📈 مؤشر الحماية
+local protectionIndicator = Instance.new("TextLabel")
+protectionIndicator.Text = "🟢 Safe: 0/180 requests (minute)"
+protectionIndicator.Size = UDim2.new(1, 0, 0.1, 0)
+protectionIndicator.Position = UDim2.new(0, 0, 0.94, 0)
+protectionIndicator.BackgroundTransparency = 1
+protectionIndicator.TextColor3 = Color3.new(0, 1, 0)
+protectionIndicator.Font = Enum.Font.SourceSans
+protectionIndicator.TextSize = 14
+
+-- التجميع
+title.Parent = mainFrame
+speedInput.Parent = mainFrame
+protectionBtn.Parent = mainFrame
+startBtn.Parent = mainFrame
+stopBtn.Parent = mainFrame
+counter.Parent = mainFrame
+protectionIndicator.Parent = mainFrame
+mainFrame.Parent = screenGui
+screenGui.Parent = player.PlayerGui
+
+-- 🚀 دالة الهجوم السريع مع حماية
+local function rapidAttack()
+    while isAttacking do
+        local targetRequests = requestsPerSecond
+        local requestsSent = 0
+        
+        -- تحديث مؤشر الحماية
+        protectionIndicator.Text = string.format("🛡️ Safe: %d/%d requests", 
+            #AntiKick.requestHistory, AntiKick.maxRequestsPerMinute)
+        
+        -- تغيير لون المؤشر بناءً على الحمل
+        local loadPercent = (#AntiKick.requestHistory / AntiKick.maxRequestsPerMinute) * 100
+        if loadPercent < 50 then
+            protectionIndicator.TextColor3 = Color3.new(0, 1, 0)
+        elseif loadPercent < 80 then
+            protectionIndicator.TextColor3 = Color3.new(1, 1, 0)
+        else
+            protectionIndicator.TextColor3 = Color3.new(1, 0, 0)
         end
-    end
-    
-    if #allFunctions == 0 then
-        return "❌ مافيش RemoteFunctions في اللعبة"
-    end
-    
-    print("📊 وجد " .. #allFunctions .. " RemoteFunctions")
-    
-    -- صيغ مختلفة للاستدعاء
-    local payloads = {
-        -- صيغ الشراء
-        {name = "buy command", data = function(func) return func:InvokeServer("buy", gamepassId) end},
-        {name = "purchase cmd", data = function(func) return func:InvokeServer("purchase", gamepassId) end},
-        {name = "buyGamepass", data = function(func) return func:InvokeServer("buyGamepass", gamepassId) end},
         
-        -- صيغ مباشرة
-        {name = "direct ID", data = function(func) return func:InvokeServer(gamepassId) end},
-        {name = "table ID", data = function(func) return func:InvokeServer({id = gamepassId}) end},
-        {name = "detailed", data = function(func) return func:InvokeServer({gamepassId = gamepassId, player = player.Name}) end},
-        
-        -- صيغ خاصة
-        {name = "with true", data = function(func) return func:InvokeServer(gamepassId, true) end},
-        {name = "with player", data = function(func) return func:InvokeServer(player, gamepassId) end},
-    }
-    
-    -- تجربة كل RemoteFunction
-    for i, func in ipairs(allFunctions) do
-        print("\n🎯 RemoteFunction #" .. i .. ": " .. func.Name)
-        
-        -- تجربة أهم صيغتين فقط لكل function (خفيف للموبايل)
-        for j = 1, math.min(2, #payloads) do
-            local payload = payloads[j]
-            totalAttempts = totalAttempts + 1
-            
-            local success, result = pcall(function()
-                return payload.data(func)
-            end)
-            
-            if success then
-                successCount = successCount + 1
-                print("   " .. payload.name .. ": ناجح ✓")
-                if result then
-                    print("      النتيجة: " .. tostring(result))
+        -- أرسل العدد المطلوب من الطلبات
+        while requestsSent < targetRequests and isAttacking do
+            -- البحث عن RemoteEvents
+            local remotes = {}
+            for _, obj in pairs(game:GetDescendants()) do
+                if obj:IsA("RemoteEvent") then
+                    table.insert(remotes, obj)
                 end
-            else
-                print("   " .. payload.name .. ": فشل ✗")
             end
             
-            task.wait(settings.delay) -- تأخير للموبايل
-        end
-    end
-    
-    return "🎯 نجح " .. successCount .. "/" .. totalAttempts .. " مع " .. #allFunctions .. " RemoteFunctions"
-end
-
--- 🎮 واجهة الموبايل (في نص الشاشة)
-local function createMobileUI()
-    -- تنظيف واجهات قديمة
-    for _, gui in ipairs(player.PlayerGui:GetChildren()) do
-        if gui.Name:find("RemoteFunctionUI") then
-            gui:Destroy()
-        end
-    end
-    
-    -- إنشاء واجهة جديدة
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "RemoteFunctionUI"
-    screenGui.ResetOnSpawn = false
-    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    
-    -- الإطار الرئيسي (نص الشاشة)
-    local mainFrame = Instance.new("Frame")
-    mainFrame.Name = "MainFrame"
-    mainFrame.Size = UDim2.new(0.9, 0, 0.4, 0)
-    mainFrame.Position = UDim2.new(0.05, 0, 0.3, 0) -- نص الشاشة
-    mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-    mainFrame.BackgroundTransparency = 0.1
-    mainFrame.BorderSizePixel = 2
-    mainFrame.BorderColor3 = Color3.fromRGB(0, 150, 255)
-    
-    -- العنوان
-    local title = Instance.new("TextLabel")
-    title.Name = "Title"
-    title.Text = "📱 REMOTE FUNCTION HACKER"
-    title.Size = UDim2.new(1, 0, 0.15, 0)
-    title.Position = UDim2.new(0, 0, 0, 0)
-    title.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-    title.TextColor3 = Color3.new(1, 1, 1)
-    title.Font = Enum.Font.SourceSansBold
-    title.TextSize = 22
-    
-    -- حقل إدخال ID
-    local idBox = Instance.new("TextBox")
-    idBox.Name = "IDBox"
-    idBox.PlaceholderText = "أدخل Gamepass ID هنا"
-    idBox.Text = ""
-    idBox.Size = UDim2.new(0.85, 0, 0.18, 0)
-    idBox.Position = UDim2.new(0.075, 0, 0.2, 0)
-    idBox.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    idBox.TextColor3 = Color3.new(1, 1, 1)
-    idBox.Font = Enum.Font.SourceSans
-    idBox.TextSize = 20
-    idBox.ClearTextOnFocus = false
-    
-    -- زر الاختراق
-    local hackButton = Instance.new("TextButton")
-    hackButton.Name = "HackButton"
-    hackButton.Text = "⚡ اختراق RemoteFunctions"
-    hackButton.Size = UDim2.new(0.85, 0, 0.18, 0)
-    hackButton.Position = UDim2.new(0.075, 0, 0.45, 0)
-    hackButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
-    hackButton.TextColor3 = Color3.new(1, 1, 1)
-    hackButton.Font = Enum.Font.SourceSansBold
-    hackButton.TextSize = 18
-    
-    -- حالة التشغيل
-    local status = Instance.new("TextLabel")
-    status.Name = "Status"
-    status.Text = "🟢 جاهز للاختراق..."
-    status.Size = UDim2.new(0.85, 0, 0.35, 0)
-    status.Position = UDim2.new(0.075, 0, 0.68, 0)
-    status.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-    status.TextColor3 = Color3.new(1, 1, 1)
-    status.Font = Enum.Font.SourceSans
-    status.TextSize = 16
-    status.TextWrapped = true
-    
-    -- زر إغلاق (اختياري)
-    local closeButton = Instance.new("TextButton")
-    closeButton.Name = "CloseButton"
-    closeButton.Text = "✖"
-    closeButton.Size = UDim2.new(0.1, 0, 0.1, 0)
-    closeButton.Position = UDim2.new(0.9, 0, 0, 0)
-    closeButton.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-    closeButton.TextColor3 = Color3.new(1, 1, 1)
-    closeButton.Font = Enum.Font.SourceSansBold
-    
-    -- أحداث الأزرار
-    hackButton.MouseButton1Click:Connect(function()
-        local idText = idBox.Text:gsub("%s+", "")
-        local gamepassId = tonumber(idText)
-        
-        if not gamepassId then
-            status.Text = "❌ أدخل رقم صحيح لـ Gamepass ID"
-            status.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
-            return
-        end
-        
-        settings.gamepassId = gamepassId
-        
-        -- تحديث الواجهة
-        hackButton.Text = "⏳ جاري الاختراق..."
-        hackButton.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
-        status.Text = "⚡ جاري استدعاء RemoteFunctions..."
-        status.BackgroundColor3 = Color3.fromRGB(0, 50, 100)
-        
-        task.spawn(function()
-            local result = hackRemoteFunctions(gamepassId)
-            
-            status.Text = result
-            
-            if result:find("نجح") or result:find("✓") then
-                status.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
-            elseif result:find("فشل") or result:find("✗") then
-                status.BackgroundColor3 = Color3.fromRGB(100, 0, 0)
-            else
-                status.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            -- إرسال طلبات مع حماية
+            for _, remote in ipairs(remotes) do
+                if not isAttacking or requestsSent >= targetRequests then break end
+                
+                -- تحقق إذا مسموح بالإرسال
+                local canSend, message = AntiKick:canSendRequest()
+                
+                if canSend then
+                    task.spawn(function()
+                        pcall(function()
+                            remote:FireServer("Amt3")
+                            requestCount = requestCount + 1
+                            requestsSent = requestsSent + 1
+                            counter.Text = "Requests: " .. requestCount
+                        end)
+                    end)
+                else
+                    -- انتظر إذا وصلنا للحد
+                    print("⚠️ " .. message)
+                    protectionIndicator.Text = "⏸️ " .. message
+                    task.wait(AntiKick:getSmartDelay())
+                end
+                
+                -- تأخير ذكي بين الطلبات
+                local smartDelay = AntiKick:getSmartDelay()
+                task.wait(smartDelay)
             end
-            
-            hackButton.Text = "⚡ اختراق RemoteFunctions"
-            hackButton.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
-        end)
-    end)
-    
-    closeButton.MouseButton1Click:Connect(function()
-        screenGui:Destroy()
-    end)
-    
-    -- تجميع الواجهة
-    title.Parent = mainFrame
-    idBox.Parent = mainFrame
-    hackButton.Parent = mainFrame
-    status.Parent = mainFrame
-    closeButton.Parent = mainFrame
-    mainFrame.Parent = screenGui
-    screenGui.Parent = player:WaitForChild("PlayerGui")
-    
-    -- جعل الواجهة قابلة للسحب (موبايل)
-    local dragging = false
-    local dragStart, startPos
-    
-    mainFrame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch then
-            dragging = true
-            dragStart = input.Position
-            startPos = mainFrame.Position
         end
-    end)
-    
-    mainFrame.InputChanged:Connect(function(input)
-        if dragging and input.UserInputType == Enum.UserInputType.Touch then
-            local delta = input.Position - dragStart
-            mainFrame.Position = UDim2.new(
-                startPos.X.Scale, 
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale, 
-                startPos.Y.Offset + delta.Y
-            )
-        end
-    end)
-    
-    mainFrame.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch then
-            dragging = false
-        end
-    end)
-    
-    return screenGui
-end
-
--- 📊 أوامر الكونسول
-_G.RFHack = function(gamepassId)
-    if not gamepassId then
-        return "أدخل: _G.RFHack(123456)"
+        
+        -- انتظر قبل الدورة التالية
+        task.wait(0.1)
     end
-    return hackRemoteFunctions(gamepassId)
 end
 
-_G.FindRFs = function()
-    local count = 0
-    for _, obj in pairs(game:GetDescendants()) do
-        if obj:IsA("RemoteFunction") then
-            count = count + 1
-            print("RF #" .. count .. ": " .. obj:GetFullName())
+-- 🎮 أحداث الأزرار
+startBtn.MouseButton1Click:Connect(function()
+    if not isAttacking then
+        -- قراءة السرعة من مربع الإدخال
+        local inputSpeed = tonumber(speedInput.Text)
+        if inputSpeed and inputSpeed > 0 and inputSpeed <= 30 then
+            requestsPerSecond = inputSpeed
+        else
+            requestsPerSecond = 10
+            speedInput.Text = "10"
         end
+        
+        isAttacking = true
+        requestCount = 0
+        startBtn.Text = "⚡ ATTACKING..."
+        startBtn.BackgroundColor3 = Color3.fromRGB(255, 100, 0)
+        
+        print("🚀 Rapid attack started with Anti-Kick protection!")
+        print("⚡ Speed: " .. requestsPerSecond .. " requests/second")
+        print("🛡️ Protection: " .. (AntiKick.safeMode and "ENABLED" or "DISABLED"))
+        
+        task.spawn(rapidAttack)
     end
-    return "وجد " .. count .. " RemoteFunctions"
-end
+end)
 
--- ℹ️ بدء التشغيل
+stopBtn.MouseButton1Click:Connect(function()
+    isAttacking = false
+    startBtn.Text = "🚀 START ATTACK"
+    startBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
+    protectionIndicator.Text = "🟢 Ready"
+    protectionIndicator.TextColor3 = Color3.new(0, 1, 0)
+    
+    print("⏹️ Attack stopped. Total requests: " .. requestCount)
+end)
+
+protectionBtn.MouseButton1Click:Connect(function()
+    AntiKick.safeMode = not AntiKick.safeMode
+    
+    if AntiKick.safeMode then
+        protectionBtn.Text = "🛡️ ANTI-KICK: ON"
+        protectionBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+        print("🛡️ Anti-Kick protection ENABLED")
+    else
+        protectionBtn.Text = "⚠️ ANTI-KICK: OFF"
+        protectionBtn.BackgroundColor3 = Color3.fromRGB(200, 120, 0)
+        print("⚠️ Anti-Kick protection DISABLED (Use at your own risk)")
+    end
+end)
+
+-- 🔄 تحديث مؤشر الحماية كل ثانية
+task.spawn(function()
+    while true do
+        if isAttacking then
+            protectionIndicator.Text = string.format("🛡️ Safe: %d/%d requests", 
+                #AntiKick.requestHistory, AntiKick.maxRequestsPerMinute)
+        end
+        task.wait(1)
+    end
+end)
+
+-- 📢 الإعلان
 print([[
     
-📱 RemoteFunction Hacker (الطريقة الثالثة)
-
-الأوامر:
-1. اكتب Gamepass ID
-2. اضغط "اختراق RemoteFunctions"
-3. شاهد النتائج
-
-أو من الكونسول:
-_G.RFHack(123456)
-_G.FindRFs()
-
-السكربت جاهز!
+    ╔══════════════════════════════════╗
+    ║      ⚡ RAPID FIRE v2.0          ║
+    ║   With Anti-Kick Protection     ║
+    ╚══════════════════════════════════╝
+    
+    🛡️ ANTI-KICK FEATURES:
+    • 180 requests/minute max (3/sec)
+    • Smart delay system
+    • Real-time load indicator
+    • Toggle on/off protection
+    
+    📱 How to use:
+    1. Set speed (1-30 requests/sec)
+    2. Toggle Anti-Kick ON/OFF
+    3. Press START ATTACK
+    4. Monitor protection indicator
+    
+    ⚡ Safe speeds:
+    • Green: <90 requests/minute
+    • Yellow: 90-150 requests/minute  
+    • Red: 150-180 requests/minute
     
 ]])
 
--- إنشاء الواجهة
-createMobileUI()
+-- 🎯 رابط سريع للاستخدام
+_G.ChangeSpeed = function(newSpeed)
+    if type(newSpeed) == "number" and newSpeed > 0 and newSpeed <= 30 then
+        requestsPerSecond = newSpeed
+        speedInput.Text = tostring(newSpeed)
+        print("⚡ Speed changed to: " .. newSpeed .. " requests/second")
+    end
+end
 
--- نسخة مختصرة لـ loadstring
-local miniLoader = [[
--- RemoteFunction Hacker Mini
-loadstring(game:HttpGet("https://pastebin.com/raw/XXXXXX"))()
-]]
-
-print("🎯 الطريقة الثالثة جاهزة للعمل!")
+_G.ToggleProtection = function()
+    protectionBtn:Click()
+end
