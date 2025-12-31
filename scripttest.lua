@@ -1,334 +1,375 @@
--- 📱 BindableEvents Finder + Copier
+-- 🎯 Purchase Hunter with Copy to Clipboard
 -- loadstring(game:HttpGet("رابط_هذا_الكود"))()
 
 local player = game.Players.LocalPlayer
-local http = game:GetService("HttpService")
+local currentSystems = nil -- لتخزين النتائج
 
--- 🔍 البحث عن BindableEvents مع فلترة
-local function findBindableEvents()
-    local bindables = {}
-    local purchaseBindables = {}
+-- 🔍 البحث عن أنظمة الشراء
+local function findRealPurchaseSystems()
+    local results = {
+        remoteEvents = {},
+        remoteFunctions = {},
+        totalFound = 0
+    }
     
+    local purchaseKeywords = {
+        "buy", "purchase", "gamepass", "pass", 
+        "shop", "store", "item", "product",
+        "money", "coin", "gem", "premium",
+        "transaction", "sale", "deal", "offer"
+    }
+    
+    -- بحث في RemoteEvents
     for _, obj in pairs(game:GetDescendants()) do
-        if obj:IsA("BindableEvent") then
-            local bindableInfo = {
-                object = obj,
-                name = obj.Name,
-                fullPath = obj:GetFullName(),
-                className = obj.ClassName
-            }
-            
-            table.insert(bindables, bindableInfo)
-            
-            -- فلترة لأسماء الشراء
+        if obj:IsA("RemoteEvent") then
             local lowerName = obj.Name:lower()
-            local purchaseKeywords = {
-                "buy", "purchase", "gamepass", "shop", 
-                "store", "item", "product", "money",
-                "coin", "gem", "transaction", "sale"
-            }
+            local fullPath = obj:GetFullName()
             
             for _, keyword in ipairs(purchaseKeywords) do
                 if lowerName:find(keyword) then
-                    table.insert(purchaseBindables, bindableInfo)
+                    table.insert(results.remoteEvents, {
+                        name = obj.Name,
+                        path = fullPath,
+                        object = obj
+                    })
+                    results.totalFound = results.totalFound + 1
+                    break
+                end
+            end
+        end
+        
+        -- بحث في RemoteFunctions
+        if obj:IsA("RemoteFunction") then
+            local lowerName = obj.Name:lower()
+            local fullPath = obj:GetFullName()
+            
+            for _, keyword in ipairs(purchaseKeywords) do
+                if lowerName:find(keyword) then
+                    table.insert(results.remoteFunctions, {
+                        name = obj.Name,
+                        path = fullPath,
+                        object = obj
+                    })
+                    results.totalFound = results.totalFound + 1
                     break
                 end
             end
         end
     end
     
-    return {
-        all = bindables,
-        purchase = purchaseBindables,
-        total = #bindables,
-        purchaseCount = #purchaseBindables
-    }
+    currentSystems = results -- حفظ النتائج
+    return results
 end
 
--- 📋 نسخ للحافظة (Clipboard)
+-- 📋 نسخ للحافظة
 local function copyToClipboard(text)
     -- طريقة للموبايل
     pcall(function()
-        -- محاولة نسخ عبر عدة طرق
-        local success
-        
-        -- الطريقة 1: عبر setclipboard إذا موجود
         if setclipboard then
             setclipboard(text)
-            success = true
+            return true
         end
         
-        -- الطريقة 2: عبر rconsoleprint إذا في executor
-        if rconsoleprint then
-            rconsoleprint(text .. "\n")
-            success = true
-        end
-        
-        -- الطريقة 3: طباعة في الكونسول للنسخ اليدوي
-        if not success then
-            print("\n📋 انسخ النص التالي:\n")
-            print("=" .. string.rep("=", 50))
-            print(text)
-            print("=" .. string.rep("=", 50))
-            print("\n📱 على الموبايل: اضغط مطولاً على النص واختر نسخ")
-        end
-        
-        return success
+        -- إذا مافيش setclipboard
+        print("\n📋 انسخ النص التالي:\n")
+        print("=" .. string.rep("=", 50))
+        print(text)
+        print("=" .. string.rep("=", 50))
+        return false
     end)
 end
 
--- 🎮 واجهة الموبايل المحسنة
+-- 🎮 واجهة الموبايل مع زر النسخ
 local function createMobileUI()
     local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "BindableFinder"
+    screenGui.Name = "PurchaseHunter"
     screenGui.ResetOnSpawn = false
     
     local mainFrame = Instance.new("Frame")
-    mainFrame.Size = UDim2.new(0.95, 0, 0.6, 0)
+    mainFrame.Size = UDim2.new(0.95, 0, 0.6, 0) -- زدنا الإرتفاع
     mainFrame.Position = UDim2.new(0.025, 0, 0.2, 0)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-    mainFrame.BackgroundTransparency = 0.1
+    mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
     
     -- العنوان
     local title = Instance.new("TextLabel")
-    title.Text = "🎯 BINDABLE FINDER + COPIER"
+    title.Text = "🎯 PURCHASE SYSTEM HUNTER"
     title.Size = UDim2.new(1, 0, 0.1, 0)
-    title.BackgroundColor3 = Color3.fromRGB(100, 0, 200)
+    title.BackgroundColor3 = Color3.fromRGB(200, 50, 0)
     title.TextColor3 = Color3.new(1, 1, 1)
     title.Font = Enum.Font.SourceSansBold
     
-    -- زر المسح
-    local scanBtn = Instance.new("TextButton")
-    scanBtn.Text = "🔍 مسح BindableEvents"
-    scanBtn.Size = UDim2.new(0.9, 0, 0.12, 0)
-    scanBtn.Position = UDim2.new(0.05, 0, 0.12, 0)
-    scanBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-    scanBtn.TextColor3 = Color3.new(1, 1, 1)
-    scanBtn.Font = Enum.Font.SourceSansBold
+    -- زر البحث
+    local searchBtn = Instance.new("TextButton")
+    searchBtn.Text = "🔍 بحث عن أنظمة الشراء"
+    searchBtn.Size = UDim2.new(0.9, 0, 0.12, 0)
+    searchBtn.Position = UDim2.new(0.05, 0, 0.12, 0)
+    searchBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+    searchBtn.TextColor3 = Color3.new(1, 1, 1)
+    searchBtn.Font = Enum.Font.SourceSansBold
     
-    -- زر نسخ الجميع
+    -- زر نسخ RemoteEvents
+    local copyEventsBtn = Instance.new("TextButton")
+    copyEventsBtn.Text = "📋 نسخ RemoteEvents"
+    copyEventsBtn.Size = UDim2.new(0.44, 0, 0.1, 0)
+    copyEventsBtn.Position = UDim2.new(0.05, 0, 0.27, 0)
+    copyEventsBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 100)
+    copyEventsBtn.TextColor3 = Color3.new(1, 1, 1)
+    copyEventsBtn.Visible = false -- مخفي حتى البحث
+    
+    -- زر نسخ RemoteFunctions
+    local copyFunctionsBtn = Instance.new("TextButton")
+    copyFunctionsBtn.Text = "📋 نسخ RemoteFunctions"
+    copyFunctionsBtn.Size = UDim2.new(0.44, 0, 0.1, 0)
+    copyFunctionsBtn.Position = UDim2.new(0.51, 0, 0.27, 0)
+    copyFunctionsBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 150)
+    copyFunctionsBtn.TextColor3 = Color3.new(1, 1, 1)
+    copyFunctionsBtn.Visible = false -- مخفي حتى البحث
+    
+    -- حقل ID
+    local idBox = Instance.new("TextBox")
+    idBox.PlaceholderText = "Gamepass ID هنا"
+    idBox.Size = UDim2.new(0.9, 0, 0.1, 0)
+    idBox.Position = UDim2.new(0.05, 0, 0.4, 0)
+    idBox.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    idBox.TextColor3 = Color3.new(1, 1, 1)
+    
+    -- زر الاختبار
+    local testBtn = Instance.new("TextButton")
+    testBtn.Text = "⚡ اختراق Gamepass"
+    testBtn.Size = UDim2.new(0.9, 0, 0.12, 0)
+    testBtn.Position = UDim2.new(0.05, 0, 0.53, 0)
+    testBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+    testBtn.TextColor3 = Color3.new(1, 1, 1)
+    testBtn.Font = Enum.Font.SourceSansBold
+    
+    -- زر نسخ الكل
     local copyAllBtn = Instance.new("TextButton")
     copyAllBtn.Text = "📋 نسخ الكل"
-    copyAllBtn.Size = UDim2.new(0.43, 0, 0.1, 0)
-    copyAllBtn.Position = UDim2.new(0.05, 0, 0.27, 0)
-    copyAllBtn.BackgroundColor3 = Color3.fromRGB(50, 150, 50)
+    copyAllBtn.Size = UDim2.new(0.9, 0, 0.1, 0)
+    copyAllBtn.Position = UDim2.new(0.05, 0, 0.68, 0)
+    copyAllBtn.BackgroundColor3 = Color3.fromRGB(100, 100, 0)
     copyAllBtn.TextColor3 = Color3.new(1, 1, 1)
-    
-    -- زر نسخ الخاصة بالشراء
-    local copyPurchaseBtn = Instance.new("TextButton")
-    copyPurchaseBtn.Text = "💰 نسخ للشراء"
-    copyPurchaseBtn.Size = UDim2.new(0.43, 0, 0.1, 0)
-    copyPurchaseBtn.Position = UDim2.new(0.52, 0, 0.27, 0)
-    copyPurchaseBtn.BackgroundColor3 = Color3.fromRGB(200, 100, 0)
-    copyPurchaseBtn.TextColor3 = Color3.new(1, 1, 1)
+    copyAllBtn.Visible = false -- مخفي حتى البحث
     
     -- النتائج
-    local results = Instance.new("ScrollingFrame")
-    results.Name = "ResultsFrame"
-    results.Size = UDim2.new(0.9, 0, 0.45, 0)
-    results.Position = UDim2.new(0.05, 0, 0.4, 0)
-    results.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-    results.BorderSizePixel = 1
-    results.BorderColor3 = Color3.new(0.3, 0.3, 0.3)
-    results.ScrollBarThickness = 8
-    results.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local results = Instance.new("TextLabel")
+    results.Text = "اضغط 🔍 للبحث أولاً"
+    results.Size = UDim2.new(0.9, 0, 0.25, 0)
+    results.Position = UDim2.new(0.05, 0, 0.81, 0)
+    results.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+    results.TextColor3 = Color3.new(1, 1, 1)
+    results.TextWrapped = true
     
-    local resultsList = Instance.new("UIListLayout")
-    resultsList.Parent = results
-    resultsList.Padding = UDim.new(0, 5)
-    
-    -- العداد
-    local counter = Instance.new("TextLabel")
-    counter.Text = "🟢 جاهز للمسح"
-    counter.Size = UDim2.new(1, 0, 0.1, 0)
-    counter.Position = UDim2.new(0, 0, 0.88, 0)
-    counter.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-    counter.TextColor3 = Color3.new(1, 1, 1)
-    counter.TextWrapped = true
-    
-    -- المتغيرات
-    local currentResults = nil
-    
-    -- 🔍 دالة المسح
-    local function performScan()
-        scanBtn.Text = "⏳ جاري المسح..."
-        scanBtn.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
-        counter.Text = "🔍 يمسح اللعبة..."
-        
-        -- مسح المحتوى القديم
-        for _, child in ipairs(results:GetChildren()) do
-            if not child:IsA("UIListLayout") then
-                child:Destroy()
-            end
+    -- 📋 وظيفة نسخ RemoteEvents
+    local function copyEventsToClipboard()
+        if not currentSystems or #currentSystems.remoteEvents == 0 then
+            results.Text = "❌ لا توجد RemoteEvents للنسخ"
+            return
         end
         
-        task.spawn(function()
-            currentResults = findBindableEvents()
-            
-            -- عرض النتائج
-            for i, bindable in ipairs(currentResults.all) do
-                local itemFrame = Instance.new("Frame")
-                itemFrame.Size = UDim2.new(1, 0, 0, 50)
-                itemFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-                itemFrame.BorderSizePixel = 1
-                
-                local nameLabel = Instance.new("TextLabel")
-                nameLabel.Text = i .. ". " .. bindable.name
-                nameLabel.Size = UDim2.new(0.7, 0, 1, 0)
-                nameLabel.Position = UDim2.new(0, 0, 0, 0)
-                nameLabel.BackgroundTransparency = 1
-                nameLabel.TextColor3 = Color3.new(1, 1, 1)
-                nameLabel.TextXAlignment = Enum.TextXAlignment.Left
-                nameLabel.TextWrapped = true
-                nameLabel.PaddingLeft = UDim.new(0, 10)
-                
-                local copyBtn = Instance.new("TextButton")
-                copyBtn.Text = "📋"
-                copyBtn.Size = UDim2.new(0.25, 0, 0.7, 0)
-                copyBtn.Position = UDim2.new(0.73, 0, 0.15, 0)
-                copyBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
-                copyBtn.TextColor3 = Color3.new(1, 1, 1)
-                
-                -- حدث نسخ الملف الواحد
-                copyBtn.MouseButton1Click:Connect(function()
-                    local text = bindable.name .. " - " .. bindable.fullPath
-                    copyToClipboard(text)
-                    counter.Text = "✅ نسخت: " .. bindable.name
-                end)
-                
-                -- تحديد إذا كان للشراء
-                local isPurchase = false
-                for _, pb in ipairs(currentResults.purchase) do
-                    if pb.name == bindable.name then
-                        isPurchase = true
-                        break
-                    end
-                end
-                
-                if isPurchase then
-                    itemFrame.BackgroundColor3 = Color3.fromRGB(50, 30, 60)
-                    nameLabel.TextColor3 = Color3.new(1, 0.5, 1)
-                end
-                
-                nameLabel.Parent = itemFrame
-                copyBtn.Parent = itemFrame
-                itemFrame.Parent = results
-            end
-            
-            -- تحديث العداد
-            counter.Text = string.format("✅ وجد %d BindableEvents (%d للشراء)", 
-                currentResults.total, currentResults.purchaseCount)
-            
-            scanBtn.Text = "🔍 مسح BindableEvents"
-            scanBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
-        end)
+        local text = "-- RemoteEvents للشراء --\n\n"
+        for i, event in ipairs(currentSystems.remoteEvents) do
+            text = text .. i .. ". " .. event.name .. "\n"
+            text = text .. "   المسار: " .. event.path .. "\n\n"
+        end
+        
+        if copyToClipboard(text) then
+            results.Text = "✅ نسخت " .. #currentSystems.remoteEvents .. " RemoteEvents"
+        else
+            results.Text = "📋 اذهب للكونسول وانسخ النص"
+        end
     end
     
-    -- 📋 دالة نسخ الكل
-    local function copyAllBindables()
-        if not currentResults then
-            counter.Text = "❌ قم بالمسح أولاً"
+    -- 📋 وظيفة نسخ RemoteFunctions
+    local function copyFunctionsToClipboard()
+        if not currentSystems or #currentSystems.remoteFunctions == 0 then
+            results.Text = "❌ لا توجد RemoteFunctions للنسخ"
             return
         end
         
-        local text = "-- جميع BindableEvents في اللعبة --\n\n"
-        for i, bindable in ipairs(currentResults.all) do
-            text = text .. i .. ". " .. bindable.name .. "\n"
-            text = text .. "   المسار: " .. bindable.fullPath .. "\n\n"
+        local text = "-- RemoteFunctions للشراء --\n\n"
+        for i, func in ipairs(currentSystems.remoteFunctions) do
+            text = text .. i .. ". " .. func.name .. "\n"
+            text = text .. "   المسار: " .. func.path .. "\n\n"
         end
         
-        copyToClipboard(text)
-        counter.Text = "✅ نسخت " .. currentResults.total .. " BindableEvent"
+        if copyToClipboard(text) then
+            results.Text = "✅ نسخت " .. #currentSystems.remoteFunctions .. " RemoteFunctions"
+        else
+            results.Text = "📋 اذهب للكونسول وانسخ النص"
+        end
     end
     
-    -- 💰 دالة نسخ للشراء فقط
-    local function copyPurchaseBindables()
-        if not currentResults then
-            counter.Text = "❌ قم بالمسح أولاً"
+    -- 📋 وظيفة نسخ الكل
+    local function copyAllToClipboard()
+        if not currentSystems or currentSystems.totalFound == 0 then
+            results.Text = "❌ لا توجد أنظمة للنسخ"
             return
         end
         
-        if currentResults.purchaseCount == 0 then
-            counter.Text = "❌ لا توجد BindableEvents للشراء"
-            return
+        local text = "-- جميع أنظمة الشراء --\n\n"
+        
+        if #currentSystems.remoteEvents > 0 then
+            text = text .. "🔥 RemoteEvents (" .. #currentSystems.remoteEvents .. "):\n"
+            for i, event in ipairs(currentSystems.remoteEvents) do
+                text = text .. "  " .. i .. ". " .. event.name .. " | " .. event.path .. "\n"
+            end
+            text = text .. "\n"
         end
         
-        local text = "-- BindableEvents للشراء --\n\n"
-        for i, bindable in ipairs(currentResults.purchase) do
-            text = text .. i .. ". " .. bindable.name .. "\n"
-            text = text .. "   المسار: " .. bindable.fullPath .. "\n\n"
+        if #currentSystems.remoteFunctions > 0 then
+            text = text .. "🔧 RemoteFunctions (" .. #currentSystems.remoteFunctions .. "):\n"
+            for i, func in ipairs(currentSystems.remoteFunctions) do
+                text = text .. "  " .. i .. ". " .. func.name .. " | " .. func.path .. "\n"
+            end
+            text = text .. "\n"
         end
         
-        copyToClipboard(text)
-        counter.Text = "✅ نسخت " .. currentResults.purchaseCount .. " للشراء"
+        if copyToClipboard(text) then
+            results.Text = "✅ نسخت " .. currentSystems.totalFound .. " نظام"
+        else
+            results.Text = "📋 اذهب للكونسول وانسخ النص"
+        end
     end
     
     -- أحداث الأزرار
-    scanBtn.MouseButton1Click:Connect(performScan)
-    copyAllBtn.MouseButton1Click:Connect(copyAllBindables)
-    copyPurchaseBtn.MouseButton1Click:Connect(copyPurchaseBindables)
+    searchBtn.MouseButton1Click:Connect(function()
+        searchBtn.Text = "⏳ جاري البحث..."
+        results.Text = "🔍 يبحث عن RemoteEvents و RemoteFunctions..."
+        
+        task.spawn(function()
+            local systems = findRealPurchaseSystems()
+            
+            -- إظهار أزرار النسخ إذا وجد نتائج
+            copyEventsBtn.Visible = (#systems.remoteEvents > 0)
+            copyFunctionsBtn.Visible = (#systems.remoteFunctions > 0)
+            copyAllBtn.Visible = (systems.totalFound > 0)
+            
+            if systems.totalFound == 0 then
+                results.Text = "❌ ما لقيت أنظمة شراء\n\n" ..
+                              "اللعبة ممكن تستخدم:\n" ..
+                              "• MarketplaceService مباشر\n" ..
+                              "• طرق مختلفة"
+                copyEventsBtn.Visible = false
+                copyFunctionsBtn.Visible = false
+                copyAllBtn.Visible = false
+            else
+                local text = "✅ وجد " .. systems.totalFound .. " نظام:\n\n"
+                
+                if #systems.remoteEvents > 0 then
+                    text = text .. "🔥 RemoteEvents: " .. #systems.remoteEvents .. "\n"
+                end
+                
+                if #systems.remoteFunctions > 0 then
+                    text = text .. "🔧 RemoteFunctions: " .. #systems.remoteFunctions .. "\n"
+                end
+                
+                results.Text = text .. "\n📋 استخدم أزرار النسخ"
+            end
+            
+            searchBtn.Text = "🔍 بحث عن أنظمة الشراء"
+        end)
+    end)
+    
+    copyEventsBtn.MouseButton1Click:Connect(copyEventsToClipboard)
+    copyFunctionsBtn.MouseButton1Click:Connect(copyFunctionsToClipboard)
+    copyAllBtn.MouseButton1Click:Connect(copyAllToClipboard)
+    
+    testBtn.MouseButton1Click:Connect(function()
+        local id = tonumber(idBox.Text)
+        if not id then
+            results.Text = "❌ أدخل رقم Gamepass ID"
+            return
+        end
+        
+        -- دالة الاختبار (بنفس الكود السابق)
+        results.Text = "⚡ جاري اختبار ID: " .. id
+        -- أضف دالة الاختبار هنا...
+    end)
     
     -- التجميع
     title.Parent = mainFrame
-    scanBtn.Parent = mainFrame
+    searchBtn.Parent = mainFrame
+    copyEventsBtn.Parent = mainFrame
+    copyFunctionsBtn.Parent = mainFrame
+    idBox.Parent = mainFrame
+    testBtn.Parent = mainFrame
     copyAllBtn.Parent = mainFrame
-    copyPurchaseBtn.Parent = mainFrame
     results.Parent = mainFrame
-    counter.Parent = mainFrame
     mainFrame.Parent = screenGui
     screenGui.Parent = player.PlayerGui
     
     return screenGui
 end
 
--- أوامر الكونسول
-_G.ScanBindables = function()
-    return findBindableEvents()
-end
-
-_G.CopyAll = function()
-    local results = findBindableEvents()
-    local text = ""
-    for i, bindable in ipairs(results.all) do
-        text = text .. i .. ". " .. bindable.name .. " | " .. bindable.fullPath .. "\n"
-    end
-    copyToClipboard(text)
-    return "نسخت " .. results.total .. " BindableEvent"
-end
-
-_G.CopyPurchase = function()
-    local results = findBindableEvents()
-    if results.purchaseCount == 0 then
-        return "لا توجد BindableEvents للشراء"
+-- أوامر الكونسول للنسخ
+_G.CopyEvents = function()
+    local systems = findRealPurchaseSystems()
+    if #systems.remoteEvents == 0 then
+        return "لا توجد RemoteEvents"
     end
     
     local text = ""
-    for i, bindable in ipairs(results.purchase) do
-        text = text .. i .. ". " .. bindable.name .. " | " .. bindable.fullPath .. "\n"
+    for i, event in ipairs(systems.remoteEvents) do
+        text = text .. i .. ". " .. event.name .. " | " .. event.path .. "\n"
     end
+    
     copyToClipboard(text)
-    return "نسخت " .. results.purchaseCount .. " BindableEvent للشراء"
+    return "نسخت " .. #systems.remoteEvents .. " RemoteEvents"
+end
+
+_G.CopyFunctions = function()
+    local systems = findRealPurchaseSystems()
+    if #systems.remoteFunctions == 0 then
+        return "لا توجد RemoteFunctions"
+    end
+    
+    local text = ""
+    for i, func in ipairs(systems.remoteFunctions) do
+        text = text .. i .. ". " .. func.name .. " | " .. func.path .. "\n"
+    end
+    
+    copyToClipboard(text)
+    return "نسخت " .. #systems.remoteFunctions .. " RemoteFunctions"
+end
+
+_G.CopyAllSystems = function()
+    local systems = findRealPurchaseSystems()
+    if systems.totalFound == 0 then
+        return "لا توجد أنظمة"
+    end
+    
+    local text = "RemoteEvents:\n"
+    for i, event in ipairs(systems.remoteEvents) do
+        text = text .. i .. ". " .. event.name .. " | " .. event.path .. "\n"
+    end
+    
+    text = text .. "\nRemoteFunctions:\n"
+    for i, func in ipairs(systems.remoteFunctions) do
+        text = text .. i .. ". " .. func.name .. " | " .. func.path .. "\n"
+    end
+    
+    copyToClipboard(text)
+    return "نسخت " .. systems.totalFound .. " نظام"
 end
 
 -- بدء التشغيل
 print([[
     
-🎯 BINDABLE FINDER + COPIER v1.0
-
-مميزات:
-1. 🔍 يبحث عن جميع BindableEvents
-2. 💰 يفرز الخاصة بالشراء
-3. 📋 ينسخ للحافظة
-4. 📱 واجهة موبايل سهلة
+🎯 PURCHASE HUNTER v2.0
+📋 مع نسخ للحافظة!
 
 الأوامر:
-_G.ScanBindables() - البحث
-_G.CopyAll() - نسخ الكل  
-_G.CopyPurchase() - نسخ للشراء فقط
+1. 🔍 ابحث عن أنظمة الشراء
+2. 📋 استخدم أزرار النسخ
+3. ⚡ جرب مع Gamepass ID
+
+أوامر الكونسول:
+_G.CopyEvents() - نسخ RemoteEvents
+_G.CopyFunctions() - نسخ RemoteFunctions  
+_G.CopyAllSystems() - نسخ الكل
 
 ]])
 
--- إنشاء الواجهة
 createMobileUI()
-
-print("✅ Bindable Finder جاهز!")
+print("✅ Purchase Hunter with Copy جاهز!")
