@@ -1,336 +1,215 @@
-local GamepassHunter = {
-    Vulnerabilities = {},
-    PurchasePoints = {},
-    Exploits = {}
-}
+-- Mobile Gamepass Hunter - خفيف وسريع للموبايل
+local MobileHunter = {}
 
--- 1. البحث عن نقاط شراء ضعيفة
-function GamepassHunter:FindPurchaseVulnerabilities()
-    -- كل الـ RemoteEvents اللي ممكن تكون للشراء
-    for _, remote in ipairs(game:GetDescendants()) do
-        if remote:IsA("RemoteEvent") then
-            -- تحقق إذا كان الاسم يدل على شراء
-            local lowerName = remote.Name:lower()
-            if string.find(lowerName, "purchase") or
-               string.find(lowerName, "buy") or
-               string.find(lowerName, "gamepass") then
+-- 1. البحث السريع (خفيف على الموبايل)
+function MobileHunter:QuickScan()
+    local points = {}
+    
+    -- بس ابحث في الأماكن المهمة
+    local importantLocations = {
+        game:GetService("Players").LocalPlayer.PlayerScripts,
+        game:GetService("Players").LocalPlayer.PlayerGui,
+        game:GetService("ReplicatedStorage"),
+        game:GetService("ServerStorage"),
+        game:GetService("Workspace")
+    }
+    
+    for _, location in ipairs(importantLocations) do
+        if location then
+            for _, child in ipairs(location:GetChildren()) do
+                -- RemoteEvents للشراء
+                if child:IsA("RemoteEvent") then
+                    local name = child.Name:lower()
+                    if name:find("buy") or name:find("purchase") or name:find("gamepass") then
+                        table.insert(points, {
+                            type = "RemoteEvent",
+                            object = child,
+                            name = child.Name
+                        })
+                    end
+                end
                 
-                table.insert(self.PurchasePoints, {
-                    object = remote,
-                    name = remote.Name,
-                    path = remote:GetFullName()
-                })
-            end
-        end
-    end
-end
-
--- 2. محاولة استغلال كل نقطة
-function GamepassHunter:TestExploits(gamepassId)
-    local results = {}
-    
-    for _, point in ipairs(self.PurchasePoints) do
-        local remote = point.object
-        
-        -- المحاولة 1: إرسال مباشر
-        local success1, result1 = pcall(function()
-            remote:FireServer(gamepassId)
-            return "Sent: " .. gamepassId
-        end)
-        
-        -- المحاولة 2: إرسال كـ table
-        local success2, result2 = pcall(function()
-            remote:FireServer({
-                id = gamepassId,
-                gamepassId = gamepassId,
-                productId = gamepassId,
-                purchase = true,
-                bought = true
-            })
-            return "Sent: Table format"
-        end)
-        
-        -- المحاولة 3: إرسال مع بيانات إضافية
-        local success3, result3 = pcall(function()
-            remote:FireServer("purchase", gamepassId, game.Players.LocalPlayer)
-            return "Sent: With player"
-        end)
-        
-        -- المحاولة 4: إرسال متكرر
-        local success4, result4 = pcall(function()
-            for i = 1, 3 do
-                remote:FireServer(gamepassId)
-                task.wait(0.1)
-            end
-            return "Sent: 3 times"
-        end)
-        
-        -- تسجيل النتائج
-        table.insert(results, {
-            remote = point.name,
-            attempts = {
-                direct = success1 and "✓" or "✗",
-                table = success2 and "✓" or "✗",
-                withPlayer = success3 and "✓" or "✗",
-                spam = success4 and "✓" or "✗"
-            }
-        })
-    end
-    
-    return results
-end
-
--- 3. التحقق من وجود FilteringEnabled=false
-function GamepassHunter:CheckFilteringEnabled()
-    local workspaceFE = workspace.FilteringEnabled
-    
-    if workspaceFE == false then
-        return {
-            status = "VULNERABLE",
-            message = "FilteringEnabled is FALSE - Full access!",
-            exploit = function()
-                -- هنا تقدر تعمل أي حاجة في السيرفر
-                -- مثال: صنع part في workspace
-                local part = Instance.new("Part")
-                part.Name = "HackedPart"
-                part.Parent = workspace
-                part.Position = Vector3.new(0, 10, 0)
-                return "Created part in workspace"
-            end
-        }
-    end
-    
-    return {status = "SECURE", message = "FilteringEnabled is true"}
-end
-
--- 4. البحث عن RemoteFunctions للشراء
-function GamepassHunter:FindRemoteFunctions()
-    local functions = {}
-    
-    for _, func in ipairs(game:GetDescendants()) do
-        if func:IsA("RemoteFunction") then
-            local lowerName = func.Name:lower()
-            if string.find(lowerName, "purchase") or
-               string.find(lowerName, "buy") then
-                
-                table.insert(functions, {
-                    object = func,
-                    name = func.Name
-                })
-            end
-        end
-    end
-    
-    return functions
-end
-
--- 5. محاولة استغلال RemoteFunctions
-function GamepassHunter:TestRemoteFunctions(gamepassId)
-    local funcs = self:FindRemoteFunctions()
-    local results = {}
-    
-    for _, func in ipairs(funcs) do
-        local remoteFunc = func.object
-        
-        -- محاولات مختلفة
-        local attempts = {
-            {call = function() return remoteFunc:InvokeServer("buy", gamepassId) end, name = "buy command"},
-            {call = function() return remoteFunc:InvokeServer("purchase", gamepassId) end, name = "purchase command"},
-            {call = function() return remoteFunc:InvokeServer(gamepassId) end, name = "direct id"},
-            {call = function() return remoteFunc:InvokeServer({id = gamepassId}) end, name = "table id"}
-        }
-        
-        local funcResults = {}
-        for _, attempt in ipairs(attempts) do
-            local success, result = pcall(attempt.call)
-            funcResults[attempt.name] = success and "✓" or "✗"
-        end
-        
-        table.insert(results, {
-            function = func.name,
-            results = funcResults
-        })
-    end
-    
-    return results
-end
-
--- 6. البحث عن BindableEvents
-function GamepassHunter:FindBindableEvents()
-    local events = {}
-    
-    for _, event in ipairs(game:GetDescendants()) do
-        if event:IsA("BindableEvent") then
-            local lowerName = event.Name:lower()
-            if string.find(lowerName, "purchase") or
-               string.find(lowerName, "gamepass") then
-                
-                table.insert(events, event)
-            end
-        end
-    end
-    
-    return events
-end
-
--- 7. واجهة المستخدم
-function GamepassHunter:CreateUI()
-    local ScreenGui = Instance.new("ScreenGui")
-    ScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
-    
-    local MainFrame = Instance.new("Frame")
-    MainFrame.Size = UDim2.new(0, 400, 0, 300)
-    MainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
-    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 40)
-    
-    -- Title
-    local Title = Instance.new("TextLabel")
-    Title.Text = "🎯 Gamepass Hunter"
-    Title.Size = UDim2.new(1, 0, 0, 40)
-    Title.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
-    
-    -- Gamepass ID Input
-    local IDBox = Instance.new("TextBox")
-    IDBox.PlaceholderText = "Enter Gamepass ID"
-    IDBox.Size = UDim2.new(0.8, 0, 0, 30)
-    IDBox.Position = UDim2.new(0.1, 0, 0.2, 0)
-    
-    -- Scan Button
-    local ScanBtn = Instance.new("TextButton")
-    ScanBtn.Text = "🔍 Scan for Vulnerabilities"
-    ScanBtn.Size = UDim2.new(0.8, 0, 0, 40)
-    ScanBtn.Position = UDim2.new(0.1, 0, 0.4, 0)
-    
-    -- Exploit Button
-    local ExploitBtn = Instance.new("TextButton")
-    ExploitBtn.Text = "⚡ Attempt Exploit"
-    ExploitBtn.Size = UDim2.new(0.8, 0, 0, 40)
-    ExploitBtn.Position = UDim2.new(0.1, 0, 0.6, 0)
-    
-    -- Results
-    local Results = Instance.new("TextLabel")
-    Results.Text = "Ready..."
-    Results.Size = UDim2.new(0.8, 0, 0, 60)
-    Results.Position = UDim2.new(0.1, 0, 0.8, 0)
-    Results.TextWrapped = true
-    
-    -- Button Actions
-    ScanBtn.MouseButton1Click:Connect(function()
-        self:FindPurchaseVulnerabilities()
-        local feStatus = self:CheckFilteringEnabled()
-        
-        Results.Text = string.format([[
-        Found %d purchase points
-        FE Status: %s
-        RemoteFunctions: %d
-        ]], #self.PurchasePoints, feStatus.status, #self:FindRemoteFunctions())
-    end)
-    
-    ExploitBtn.MouseButton1Click:Connect(function()
-        local id = tonumber(IDBox.Text)
-        if not id then
-            Results.Text = "Invalid Gamepass ID"
-            return
-        end
-        
-        Results.Text = "Exploiting..."
-        
-        task.spawn(function()
-            -- Test all methods
-            local remoteResults = self:TestExploits(id)
-            local funcResults = self:TestRemoteFunctions(id)
-            local feStatus = self:CheckFilteringEnabled()
-            
-            local successCount = 0
-            for _, result in ipairs(remoteResults) do
-                for _, status in pairs(result.attempts) do
-                    if status == "✓" then
-                        successCount = successCount + 1
+                -- RemoteFunctions
+                if child:IsA("RemoteFunction") then
+                    local name = child.Name:lower()
+                    if name:find("buy") or name:find("purchase") then
+                        table.insert(points, {
+                            type = "RemoteFunction",
+                            object = child,
+                            name = child.Name
+                        })
                     end
                 end
             end
+        end
+    end
+    
+    return points
+end
+
+-- 2. اختبار بسيط للموبايل
+function MobileHunter:TestPurchase(gamepassId)
+    local results = {}
+    local points = self:QuickScan()
+    
+    for _, point in ipairs(points) do
+        if point.type == "RemoteEvent" then
+            local remote = point.object
             
-            Results.Text = string.format([[
-            Exploitation Complete!
+            -- جرب 3 طرق بسيطة
+            local attempts = {
+                {"Direct ID", function() remote:FireServer(gamepassId) end},
+                {"As Table", function() remote:FireServer({id = gamepassId}) end},
+                {"With Command", function() remote:FireServer("buy", gamepassId) end}
+            }
             
-            Successful Attempts: %d
-            Purchase Points: %d
-            FE Status: %s
+            for _, attempt in ipairs(attempts) do
+                local name, func = attempt[1], attempt[2]
+                local success = pcall(func)
+                
+                table.insert(results, {
+                    point = point.name,
+                    attempt = name,
+                    success = success
+                })
+                
+                task.wait(0.2) -- تأخير بسيط للموبايل
+            end
+        end
+    end
+    
+    return results
+end
+
+-- 3. واجهة موبايل بسيطة
+function MobileHunter:CreateMobileUI()
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "MobileHunter"
+    
+    -- إطار رئيسي بسيط
+    local main = Instance.new("Frame")
+    main.Size = UDim2.new(0.9, 0, 0.4, 0)
+    main.Position = UDim2.new(0.05, 0, 0.05, 0)
+    main.BackgroundColor3 = Color3.fromRGB(25, 25, 35)
+    
+    -- عنوان
+    local title = Instance.new("TextLabel")
+    title.Text = "📱 Mobile Gamepass Hunter"
+    title.Size = UDim2.new(1, 0, 0, 40)
+    title.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    title.TextColor3 = Color3.new(1, 1, 1)
+    title.Font = Enum.Font.SourceSansBold
+    
+    -- حقل الإدخال
+    local input = Instance.new("TextBox")
+    input.PlaceholderText = "Gamepass ID"
+    input.Size = UDim2.new(0.8, 0, 0, 35)
+    input.Position = UDim2.new(0.1, 0, 0.2, 0)
+    input.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+    input.TextColor3 = Color3.new(1, 1, 1)
+    
+    -- زر البحث
+    local scanBtn = Instance.new("TextButton")
+    scanBtn.Text = "🔍 Quick Scan"
+    scanBtn.Size = UDim2.new(0.35, 0, 0, 40)
+    scanBtn.Position = UDim2.new(0.1, 0, 0.4, 0)
+    scanBtn.BackgroundColor3 = Color3.fromRGB(0, 100, 200)
+    scanBtn.TextColor3 = Color3.new(1, 1, 1)
+    
+    -- زر الاستغلال
+    local exploitBtn = Instance.new("TextButton")
+    exploitBtn.Text = "⚡ Exploit"
+    exploitBtn.Size = UDim2.new(0.35, 0, 0, 40)
+    exploitBtn.Position = UDim2.new(0.55, 0, 0.4, 0)
+    exploitBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+    exploitBtn.TextColor3 = Color3.new(1, 1, 1)
+    
+    -- نتائج
+    local results = Instance.new("TextLabel")
+    results.Text = "Ready for mobile scan..."
+    results.Size = UDim2.new(0.8, 0, 0, 80)
+    results.Position = UDim2.new(0.1, 0, 0.65, 0)
+    results.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+    results.TextColor3 = Color3.new(1, 1, 1)
+    results.TextWrapped = true
+    results.Font = Enum.Font.SourceSans
+    
+    -- أحداث الأزرار
+    scanBtn.MouseButton1Click:Connect(function()
+        local points = self:QuickScan()
+        results.Text = "📊 Found: " .. #points .. " points\n"
+        for _, point in ipairs(points) do
+            results.Text = results.Text .. point.type .. ": " .. point.name .. "\n"
+        end
+    end)
+    
+    exploitBtn.MouseButton1Click:Connect(function()
+        local id = tonumber(input.Text)
+        if not id then
+            results.Text = "❌ Enter valid Gamepass ID"
+            return
+        end
+        
+        results.Text = "⚡ Exploiting..."
+        
+        task.spawn(function()
+            local testResults = self:TestPurchase(id)
             
-            Check console for details
-            ]], successCount, #self.PurchasePoints, feStatus.status)
-            
-            -- Print detailed results
-            print("\n=== EXPLOIT RESULTS ===")
-            for _, result in ipairs(remoteResults) do
-                print("Remote: " .. result.remote)
-                for name, status in pairs(result.attempts) do
-                    print("  " .. name .. ": " .. status)
+            local successCount = 0
+            for _, result in ipairs(testResults) do
+                if result.success then
+                    successCount = successCount + 1
                 end
+            end
+            
+            results.Text = "✅ Success: " .. successCount .. "/" .. #testResults
+            results.Text = results.Text .. "\nCheck console for details"
+            
+            -- طباعة النتائج
+            print("\n📱 Mobile Exploit Results:")
+            for _, result in ipairs(testResults) do
+                print(result.point .. " - " .. result.attempt .. ": " .. (result.success and "✓" or "✗"))
             end
         end)
     end)
     
-    -- Assemble UI
-    Title.Parent = MainFrame
-    IDBox.Parent = MainFrame
-    ScanBtn.Parent = MainFrame
-    ExploitBtn.Parent = MainFrame
-    Results.Parent = MainFrame
-    MainFrame.Parent = ScreenGui
+    -- تجميع الواجهة
+    title.Parent = main
+    input.Parent = main
+    scanBtn.Parent = main
+    exploitBtn.Parent = main
+    results.Parent = main
+    main.Parent = gui
     
-    return ScreenGui
+    gui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+    
+    return gui
 end
 
--- 8. Auto-scan on startup
-function GamepassHunter:AutoScan()
-    print("\n=== Gamepass Hunter Started ===")
-    
-    -- Scan for vulnerabilities
-    self:FindPurchaseVulnerabilities()
-    
-    -- Check FE status
-    local feStatus = self:CheckFilteringEnabled()
-    
-    -- Results
-    print(string.format([[
-    
-    📊 SCAN RESULTS:
-    Purchase Points Found: %d
-    FilteringEnabled: %s
-    RemoteFunctions: %d
-    BindableEvents: %d
-    
-    Commands:
-    _G.ScanGamepass(id) - Test specific gamepass
-    _G.GetPoints() - Show purchase points
-    _G.TestAll(id) - Test all methods
-    
-    ]], #self.PurchasePoints, 
-       feStatus.status, 
-       #self:FindRemoteFunctions(),
-       #self:FindBindableEvents()))
+-- 4. أمر سريع من الكونسول
+_G.MobileTest = function(gamepassId)
+    print("📱 Mobile testing gamepass: " .. gamepassId)
+    return MobileHunter:TestPurchase(gamepassId)
 end
 
--- Global functions
-_G.ScanGamepass = function(id)
-    return GamepassHunter:TestExploits(id)
+_G.MobileScan = function()
+    return MobileHunter:QuickScan()
 end
 
-_G.GetPoints = function()
-    return GamepassHunter.PurchasePoints
-end
+-- 5. تشغيل تلقائي
+print([[
+    
+📱 Mobile Gamepass Hunter Loaded!
 
-_G.TestAll = function(id)
-    local results = {}
-    results.remotes = GamepassHunter:TestExploits(id)
-    results.functions = GamepassHunter:TestRemoteFunctions(id)
-    results.fe = GamepassHunter:CheckFilteringEnabled()
-    return results
-end
+Commands:
+_MobileTest(ID) - Test gamepass purchase
+_MobileScan() - Quick scan for points
 
--- Start
-GamepassHunter:AutoScan()
-GamepassHunter:CreateUI()
+Touch buttons on screen to use GUI
 
-return GamepassHunter
+]])
+
+-- إنشاء الواجهة
+MobileHunter:CreateMobileUI()
+
+return MobileHunter
