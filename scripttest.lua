@@ -1,162 +1,63 @@
--- ⚡ Rapid Fire Attack - Mobile Optimized
--- loadstring(game:HttpGet("رابط_هذا_الكود"))()
+-- 📱 Mobile Gamepass Purchase
+-- loadstring(game:HttpGet("رابط"))()
 
 local player = game.Players.LocalPlayer
-local isAttacking = false
-local requestCount = 0
-local requestsPerSecond = 10  -- إضافة هذا المتغير
 
--- 📱 واجهة للهاتف
+-- 📝 مربع إدخال
 local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "RapidFire"
-screenGui.ResetOnSpawn = false
-
-local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(1, 0, 0.4, 0)  -- نصف الشاشة
-mainFrame.Position = UDim2.new(0, 0, 0.3, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-mainFrame.BackgroundTransparency = 0.2
-
--- 🎯 العنوان
-local title = Instance.new("TextLabel")
-title.Text = "⚡ RAPID FIRE ATTACK"
-title.Size = UDim2.new(1, 0, 0.15, 0)
-title.BackgroundColor3 = Color3.fromRGB(40, 0, 60)
-title.TextColor3 = Color3.new(1, 1, 1)
-title.Font = Enum.Font.SourceSansBold
-
--- 📝 إضافة مربع إدخال السرعة (التعديل الوحيد)
-local speedInput = Instance.new("TextBox")
-speedInput.PlaceholderText = "Requests per second (ex: 10)"
-speedInput.Text = "10"
-speedInput.Size = UDim2.new(0.9, 0, 0.15, 0)
-speedInput.Position = UDim2.new(0.05, 0, 0.2, 0)
-speedInput.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-speedInput.TextColor3 = Color3.new(1, 1, 1)
-speedInput.Font = Enum.Font.SourceSansBold
-speedInput.TextSize = 16
-
--- 🔥 زر التشغيل
-local startBtn = Instance.new("TextButton")
-startBtn.Text = "🚀 START ATTACK"
-startBtn.Size = UDim2.new(0.9, 0, 0.25, 0)
-startBtn.Position = UDim2.new(0.05, 0, 0.38, 0)  -- عدلت المسافة
-startBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
-startBtn.TextColor3 = Color3.new(1, 1, 1)
-startBtn.Font = Enum.Font.SourceSansBold
-startBtn.TextSize = 18
-
--- ⏹️ زر الإيقاف
-local stopBtn = Instance.new("TextButton")
-stopBtn.Text = "⏹️ STOP"
-stopBtn.Size = UDim2.new(0.9, 0, 0.25, 0)
-stopBtn.Position = UDim2.new(0.05, 0, 0.68, 0)  -- عدلت المسافة
-stopBtn.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
-stopBtn.TextColor3 = Color3.new(1, 1, 1)
-stopBtn.Font = Enum.Font.SourceSansBold
-stopBtn.TextSize = 18
-
--- 📊 العداد
-local counter = Instance.new("TextLabel")
-counter.Text = "Requests: 0"
-counter.Size = UDim2.new(1, 0, 0.15, 0)
-counter.Position = UDim2.new(0, 0, 0.85, 0)
-counter.BackgroundTransparency = 1
-counter.TextColor3 = Color3.new(0, 1, 1)
-counter.Font = Enum.Font.SourceSansBold
-counter.TextSize = 16
-
--- التجميع
-title.Parent = mainFrame
-speedInput.Parent = mainFrame  -- إضافة مربع السرعة
-startBtn.Parent = mainFrame
-stopBtn.Parent = mainFrame
-counter.Parent = mainFrame
-mainFrame.Parent = screenGui
+screenGui.Name = "SimplePurchase"
 screenGui.Parent = player.PlayerGui
 
--- 🚀 دالة الهجوم السريع
-local function rapidAttack()
-    while isAttacking do
-        local requestsSent = 0
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0.8, 0, 0.2, 0)
+frame.Position = UDim2.new(0.1, 0, 0.1, 0)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+
+local input = Instance.new("TextBox")
+input.PlaceholderText = "Enter Gamepass ID"
+input.Size = UDim2.new(0.6, 0, 0.4, 0)
+input.Position = UDim2.new(0.2, 0, 0.1, 0)
+input.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
+input.TextColor3 = Color3.new(1, 1, 1)
+
+local button = Instance.new("TextButton")
+button.Text = "🛒 BUY"
+button.Size = UDim2.new(0.6, 0, 0.4, 0)
+button.Position = UDim2.new(0.2, 0, 0.55, 0)
+button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+button.TextColor3 = Color3.new(1, 1, 1)
+
+-- التجميع
+input.Parent = frame
+button.Parent = frame
+frame.Parent = screenGui
+
+-- 🎯 دالة الشراء المباشر
+button.MouseButton1Click:Connect(function()
+    local gamepassId = tonumber(input.Text)
+    
+    if gamepassId then
+        button.Text = "🔄 PROCESSING..."
+        button.BackgroundColor3 = Color3.fromRGB(255, 150, 0)
         
-        -- أرسل العدد المطلوب من الطلبات
-        while requestsSent < requestsPerSecond and isAttacking do
-            -- البحث عن RemoteEvents
-            local remotes = {}
-            for _, obj in pairs(game:GetDescendants()) do
-                if obj:IsA("RemoteEvent") then
-                    table.insert(remotes, obj)
-                end
-            end
+        pcall(function()
+            game:GetService("MarketplaceService"):PromptProductPurchase(player, gamepassId)
+            button.Text = "✅ SENT!"
+            button.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
             
-            -- إرسال طلبات
-            for _, remote in ipairs(remotes) do
-                if not isAttacking or requestsSent >= requestsPerSecond then break end
-                
-                task.spawn(function()
-                    pcall(function()
-                        remote:FireServer("Amt3")
-                        requestCount = requestCount + 1
-                        requestsSent = requestsSent + 1
-                        counter.Text = "Requests: " .. requestCount
-                    end)
-                end)
-            end
-        end
+            wait(1)
+            button.Text = "🛒 BUY"
+            button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+        end)
+    else
+        button.Text = "❌ INVALID ID"
+        button.BackgroundColor3 = Color3.fromRGB(180, 0, 0)
         
-        -- انتظر ثانية واحدة
-        task.wait(1)
-    end
-end
-
--- 🎮 أحداث الأزرار
-startBtn.MouseButton1Click:Connect(function()
-    if not isAttacking then
-        -- قراءة السرعة من مربع الإدخال
-        local inputSpeed = tonumber(speedInput.Text)
-        if inputSpeed and inputSpeed > 0 then
-            requestsPerSecond = inputSpeed
-        else
-            requestsPerSecond = 10
-        end
-        
-        isAttacking = true
-        requestCount = 0
-        startBtn.Text = "⚡ ATTACKING..."
-        startBtn.BackgroundColor3 = Color3.fromRGB(255, 100, 0)
-        
-        print("🚀 Rapid attack started!")
-        print("⚡ Speed: " .. requestsPerSecond .. " requests/second")
-        
-        task.spawn(rapidAttack)
+        wait(1)
+        button.Text = "🛒 BUY"
+        button.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
     end
 end)
 
-stopBtn.MouseButton1Click:Connect(function()
-    isAttacking = false
-    startBtn.Text = "🚀 START ATTACK"
-    startBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
-    
-    print("⏹️ Attack stopped. Total requests: " .. requestCount)
-end)
-
--- 📢 الإعلان
-print([[
-    
-    ╔══════════════════════════════╗
-    ║      ⚡ RAPID FIRE v1.0      ║
-    ║   Mobile Optimized          ║
-    ╚══════════════════════════════╝
-    
-    📱 How to use:
-    1. Enter number in the box
-    2. Press START ATTACK
-    3. Press STOP when done
-    
-    ⚡ Example:
-    - Type 10 → 10 requests/second
-    - Type 50 → 50 requests/second
-    - Type 1  → 1 request/second
-    
-]])
+print("📱 Mobile Purchase Ready!")
+print("🎯 Enter Gamepass ID and press BUY")
